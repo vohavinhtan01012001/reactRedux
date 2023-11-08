@@ -1,6 +1,8 @@
 import { AsyncThunk, PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { Category } from 'types/shirt.type'
-import { addCategory, deleteCategory, getCategoryList, updateCategory } from './adminCategory.api'
+import { Category } from 'types/category.type'
+import { addCategory, deleteCategory, getCategoryList, updateCategory } from '../api/category.api'
+import { toast } from 'react-toastify'
+import { Status } from 'types/status.type'
 
 type GenericAsyncThunk = AsyncThunk<unknown, unknown, any>
 
@@ -10,7 +12,7 @@ type FulfilledAction = ReturnType<GenericAsyncThunk['fulfilled']>
 
 interface CategoryState {
   categoryList: Category[]
-  status: {}
+  status: Status
   edittingCategory: Category | null
   loading: boolean
   currentRequestId: undefined | string
@@ -18,7 +20,10 @@ interface CategoryState {
 
 const initialState: CategoryState = {
   categoryList: [],
-  status: {},
+  status: {
+    statusCode: 0,
+    message: ''
+  },
   edittingCategory: null,
   loading: false,
   currentRequestId: undefined
@@ -28,7 +33,7 @@ const categorySlice = createSlice({
   name: 'category',
   initialState,
   reducers: {
-    showEditCategory: (state, action: PayloadAction<number>) => {
+    showEditCategory: (state, action) => {
       const categoryId = action.payload
       const foundEdit = state.categoryList.find((c) => c.id === categoryId)
       if (foundEdit) {
@@ -45,12 +50,10 @@ const categorySlice = createSlice({
         state.categoryList = action.payload.category
       })
       .addCase(updateCategory.fulfilled, (state, action) => {
-        state.categoryList.find((category, index) => {
-          if (category.id === action.meta.arg.body.id) {
-            state.categoryList[index] = action.meta.arg.body
-            return true
-          }
-          return false
+        state.categoryList.push(action.payload.category)
+        state.status = action.payload.status
+        toast.success('Category updated successfully!', {
+          position: toast.POSITION.TOP_RIGHT
         })
       })
       .addCase(deleteCategory.fulfilled, (state, action) => {
@@ -58,9 +61,16 @@ const categorySlice = createSlice({
         if (foundIndex !== -1) {
           state.categoryList.splice(foundIndex, 1)
         }
+        toast.success(action.payload.status.message, {
+          position: toast.POSITION.TOP_RIGHT
+        })
       })
       .addCase(addCategory.fulfilled, (state, action) => {
         state.categoryList.push(action.payload.category)
+        state.status = action.payload.status
+        toast.success(action.payload.status.message, {
+          position: toast.POSITION.TOP_RIGHT
+        })
       })
       .addMatcher<PendingAction>(
         (action) => action.type.endsWith('/pending'),
@@ -76,6 +86,7 @@ const categorySlice = createSlice({
             state.loading = false
             state.currentRequestId = undefined
           }
+          console.log(action)
         }
       )
   }

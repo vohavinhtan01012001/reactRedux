@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
-import categoryReducer from 'pages/admin/components/category/adminCategory.slice'
-import userReducer from 'pages/auth/auth.slice'
+import categoryReducer from 'slice/category.slice'
+import userReducer from 'slice/auth.slice'
 import { useDispatch } from 'react-redux'
 
 export const store = configureStore({

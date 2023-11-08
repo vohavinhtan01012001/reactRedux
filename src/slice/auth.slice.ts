@@ -2,9 +2,11 @@ import { AsyncThunk, PayloadAction, createAsyncThunk, createSlice } from '@redux
 import { LoginResponse, User, UserLogin } from 'types/auth.type'
 import { Status } from 'types/status.type'
 import http from 'utils/http'
-import { login, register, registerAdmin } from './auth.api'
+import { login, register, registerAdmin } from '../api/auth.api'
 import { AxiosError } from 'axios'
 import { toast } from 'react-toastify'
+import Cookies from 'js-cookie'
+import { useNavigate } from 'react-router-dom'
 
 type GenericAsyncThunk = AsyncThunk<unknown, unknown, any>
 
@@ -93,6 +95,7 @@ const userSlice = createSlice({
           toast.success(action.payload.message, {
             position: toast.POSITION.TOP_RIGHT
           })
+          Cookies.set('accessToken', action.payload.accessToken, { expires: 7 })
         } else {
           toast.error(action.payload.message, {
             position: toast.POSITION.TOP_RIGHT

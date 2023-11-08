@@ -1,5 +1,5 @@
-import Category from 'pages/admin/components/category'
-import Product from 'pages/admin/components/product'
+import Category from 'pages/admin/category'
+import Product from 'pages/admin/product'
 import DefaultAuth from 'pages/auth'
 
 const authRouters = [
@@ -19,11 +19,11 @@ const privateRoutes = [
   {
     path: '/categories',
     component: Category
+  },
+  {
+    path: '/products',
+    component: Product
   }
-  /* {
-    path: '/modal',
-    component: EditCategory
-  } */
 ]
 
 export { privateRoutes, authRouters }

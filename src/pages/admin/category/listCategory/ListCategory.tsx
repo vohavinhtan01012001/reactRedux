@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { RootState, useAppDispatch } from 'store'
-import { Category } from 'types/shirt.type'
+import { Category } from 'types/category.type'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { toast } from 'react-toastify'
@@ -9,30 +9,26 @@ import Swal from 'sweetalert2'
 import AddCategory from '../addCategory'
 import Skeleton from 'component/skeleton'
 import EditCategory from '../editCategory'
-import { deleteCategory, getCategoryList } from '../adminCategory.api'
-import { showEditCategory } from '../adminCategory.slice'
 import { CloseSquareFilled } from '@ant-design/icons'
+import { showEditCategory } from 'slice/category.slice'
+import { deleteCategory, getCategoryList } from 'api/category.api'
 
 export default function ListCategory() {
+  const edittingCategory = useSelector((state: RootState) => state.category.edittingCategory)
   const categoryList = useSelector((state: RootState) => state.category.categoryList)
   const loading = useSelector((state: RootState) => state.category.loading)
   const dispatch = useAppDispatch()
   const [category, setCategory] = useState<Category[]>(categoryList)
   useEffect(() => {
-    // Gửi yêu cầu lấy danh sách danh mục
     const promise = dispatch(getCategoryList())
 
     return () => {
-      // Hủy yêu cầu khi component unmount
       promise.abort()
     }
   }, [dispatch])
 
-  // Sử dụng useEffect khác để theo dõi sự thay đổi trong categoryList.category
   useEffect(() => {
-    // Kiểm tra xem categoryList.category đã có dữ liệu chưa
     if (categoryList) {
-      // Cập nhật giá trị category sau khi có dữ liệu
       setCategory(categoryList)
     }
   }, [categoryList])
@@ -53,9 +49,6 @@ export default function ListCategory() {
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch(deleteCategory(id))
-        toast.success('Category delete successfully!', {
-          position: toast.POSITION.TOP_RIGHT
-        })
       }
     })
   }
@@ -131,10 +124,7 @@ export default function ListCategory() {
                     <td className='px-6 py-4'>{item.name}</td>
                     <td className='px-6 py-4'>{item.description}</td>
                     <td className='px-6 py-4 text-right'>
-                      <button
-                        onClick={(e) => handleShowEdit(item.id)}
-                        className='font-medium text-blue-600 hover:underline dark:text-blue-500'
-                      >
+                      <button onClick={(e) => handleShowEdit(item.id)}>
                         <EditCategory />
                       </button>
                     </td>

@@ -1,23 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useFormik } from 'formik'
-import * as Yup from 'yup'
 import { RootState, useAppDispatch } from 'store'
-import { useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import styles from '../auth.module.scss'
-import { register } from '../auth.api'
-import { useNavigate } from 'react-router-dom'
-
-const signUpValidationSchema = Yup.object({
-  fullname: Yup.string().required('Full Name is required'),
-  email: Yup.string().email('Invalid email address').required('Email is required'),
-  password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
-  phone: Yup.string().min(10).required('Phone number is required'),
-  address: Yup.string().required('Address is required')
-})
+import { register } from '../../../api/auth.api'
+import { signUpValidationSchema } from 'validaton/auth.valid'
 
 function Register() {
-  const statusUser = useSelector((state: RootState) => state.user.statusUser)
   const dispatch = useAppDispatch()
   const initialValuesSignUp = {
     fullname: '',
@@ -28,19 +17,6 @@ function Register() {
   }
 
   const [confirmPassword, setConfirmPassword] = useState('')
- /*  useEffect(() => {
-    if (statusUser.message !== '') {
-      if (statusUser.statusCode === 1) {
-        toast.success(statusUser.message, {
-          position: toast.POSITION.TOP_RIGHT
-        })
-      } else {
-        toast.error(statusUser.message, {
-          position: toast.POSITION.TOP_RIGHT
-        })
-      }
-    }
-  }, [dispatch, statusUser.message, statusUser.statusCode]) */
 
   const formik = useFormik({
     initialValues: initialValuesSignUp,
@@ -53,7 +29,7 @@ function Register() {
         return
       }
       dispatch(register(values))
-     /*  if (statusUser.statusCode === 1) {
+      /*  if (statusUser.statusCode === 1) {
         toast.success(statusUser.message, {
           position: toast.POSITION.TOP_RIGHT
         })

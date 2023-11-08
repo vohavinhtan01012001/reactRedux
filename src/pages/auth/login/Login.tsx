@@ -1,21 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import { RootState, useAppDispatch } from 'store'
-import { useSelector } from 'react-redux'
-import { toast } from 'react-toastify'
-import Cookies from 'js-cookie'
+import { useAppDispatch } from 'store'
 import styles from '../auth.module.scss' // Import CSS
-import { login } from '../auth.api'
-
-const signInValidationSchema = Yup.object({
-  email: Yup.string().required('email is required'),
-  password: Yup.string().required('Password is required')
-})
+import { login } from '../../../api/auth.api'
+import { useNavigate } from 'react-router-dom'
+import { signInValidationSchema } from 'validaton/auth.valid'
 
 function Login() {
-  const loginResponse = useSelector((state: RootState) => state.user.loginResponse)
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
   const initialValuesSignIn = {
     email: '',
     password: ''
@@ -25,17 +19,11 @@ function Login() {
     initialValues: initialValuesSignIn,
     validationSchema: signInValidationSchema,
     onSubmit: async (values) => {
-      await dispatch(login(values))
-      Cookies.get('accessToken', loginResponse.accessToken)
-      /*   if (loginResponse.statusCode === 1) {
-        toast.success(loginResponse.message, {
-          position: toast.POSITION.TOP_RIGHT
-        })
-      } else {
-        toast.error(loginResponse.message, {
-          position: toast.POSITION.TOP_RIGHT
-        })
-      } */
+      await dispatch(login(values)).then((action) => {
+        if (action.payload.statusCode === 1) {
+          navigate('/admin/categories')
+        }
+      })
     }
   })
 
