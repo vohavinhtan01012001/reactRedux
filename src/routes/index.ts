@@ -1,5 +1,7 @@
 import Category from 'pages/admin/category'
 import Product from 'pages/admin/product'
+import AddProduct from 'pages/admin/product/addProduct'
+import EditProduct from 'pages/admin/product/editProduct/EditProduct'
 import DefaultAuth from 'pages/auth'
 
 const authRouters = [
@@ -23,6 +25,14 @@ const privateRoutes = [
   {
     path: '/products',
     component: Product
+  },
+  {
+    path: '/add-product',
+    component: AddProduct
+  },
+  {
+    path: '/edit-product/:id',
+    component: EditProduct
   }
 ]
 

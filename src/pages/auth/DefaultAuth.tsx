@@ -22,7 +22,6 @@ function DefaultAuth() {
 
   return (
     <div>
-      <ToastContainer />
       <p className={`${styles.tip} ${styles['h-7']}`}></p>
       <div className={containerClass}>
         {isSignUp ? '' : <Login />}

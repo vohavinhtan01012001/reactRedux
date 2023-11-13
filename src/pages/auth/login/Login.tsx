@@ -19,11 +19,14 @@ function Login() {
     initialValues: initialValuesSignIn,
     validationSchema: signInValidationSchema,
     onSubmit: async (values) => {
-      await dispatch(login(values)).then((action) => {
-        if (action.payload.statusCode === 1) {
+      try {
+        const action: any = await dispatch(login(values))
+        if (action.payload?.statusCode === 1) {
           navigate('/admin/categories')
         }
-      })
+      } catch (error) {
+        console.error('Trạng thái rejected:', error)
+      }
     }
   })
 

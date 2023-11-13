@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Modal, Input } from 'antd'
 import { useSelector } from 'react-redux'
 import { RootState, useAppDispatch } from 'store'
-import { Category } from 'types/category.type'
+import { Category, EdittingCategory } from 'types/category.type'
 import { toast } from 'react-toastify'
 import ButtonCusTom from 'component/button'
 import TextArea from 'antd/es/input/TextArea'
@@ -13,34 +13,24 @@ import { updateCategory } from 'api/category.api'
 
 const EditCategory: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const category = useSelector((state: RootState) => state.category.edittingCategory)
-  const [itemCategory, setItemCategory] = useState<Category>({
-    id: 0,
-    name: '',
-    description: ''
-  })
-  const dispatch = useAppDispatch()
+  const edittingCategory = useSelector((state: RootState) => state.category.edittingCategory)
 
-  useEffect(() => {
-    if (isModalOpen && category) {
-      setItemCategory(category)
-    }
-    if (isModalOpen === undefined) {
-      setItemCategory({
-        id: 0,
-        name: '',
-        description: ''
-      })
-    }
-  }, [isModalOpen, category])
+  const dispatch = useAppDispatch()
 
   const validationSchema = Yup.object({
     name: Yup.string().required('Name is required'),
     description: Yup.string().required('Description is required')
   })
 
-  const handleSubmit = (values: Category) => {
-    dispatch(updateCategory(values))
+  const handleSubmit = (values: EdittingCategory) => {
+    const categorySubmit = {
+      name: values.name,
+      description: values.description
+    }
+    if (edittingCategory && edittingCategory.id) {
+      console.log(categorySubmit)
+      dispatch(updateCategory({ category: categorySubmit, id: edittingCategory.id }))
+    }
     setIsModalOpen(false)
   }
 
@@ -62,7 +52,11 @@ const EditCategory: React.FC = () => {
         <EditFilled rev='someValue' className='text-lg text-blue-600' />
       </button>
       <Modal title='Basic Modal' visible={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-        <Formik initialValues={itemCategory} validationSchema={validationSchema} onSubmit={handleSubmit}>
+        <Formik
+          initialValues={edittingCategory ?? { id: 0, name: '', description: '' }}
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
+        >
           <Form>
             <div className='space-y-6 px-5 py-3'>
               <h2 className='text-xl font-medium text-gray-900 dark:text-white'>Edit Category</h2>

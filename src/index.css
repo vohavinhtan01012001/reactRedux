@@ -14,3 +14,15 @@
 .ant-modal-footer > button {
   display: none;
 }
+
+.ant-form-item-required {
+  margin-top: 0;
+  margin-left: 10px;
+}
+
+.ant-form-explain {
+  color: red;
+}
+.css-dev-only-do-not-override-xu9wm8 > label {
+  margin: 0;
+}

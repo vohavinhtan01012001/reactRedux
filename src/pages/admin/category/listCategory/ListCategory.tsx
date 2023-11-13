@@ -2,9 +2,6 @@ import React, { Fragment, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { RootState, useAppDispatch } from 'store'
 import { Category } from 'types/category.type'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons'
-import { toast } from 'react-toastify'
 import Swal from 'sweetalert2'
 import AddCategory from '../addCategory'
 import Skeleton from 'component/skeleton'
@@ -14,7 +11,6 @@ import { showEditCategory } from 'slice/category.slice'
 import { deleteCategory, getCategoryList } from 'api/category.api'
 
 export default function ListCategory() {
-  const edittingCategory = useSelector((state: RootState) => state.category.edittingCategory)
   const categoryList = useSelector((state: RootState) => state.category.categoryList)
   const loading = useSelector((state: RootState) => state.category.loading)
   const dispatch = useAppDispatch()
@@ -32,7 +28,6 @@ export default function ListCategory() {
       setCategory(categoryList)
     }
   }, [categoryList])
-  console.log(categoryList)
   const handleShowEdit = (id: number) => {
     dispatch(showEditCategory(id))
   }

@@ -9,9 +9,8 @@ export const register = createAsyncThunk('auth/register', async (user: User, thu
       signal: thunkAPI.signal
     })
     return response.data
-  } catch (error) {
-    //@ts-expect-error
-    return error.response.data || null
+  } catch (error: any) {
+    return thunkAPI.rejectWithValue(error.response.data)
   }
 })
 
@@ -21,15 +20,18 @@ export const login = createAsyncThunk('auth/login', async (body: UserLogin, thun
       signal: thunkAPI.signal
     })
     return response.data
-  } catch (error) {
-    //@ts-expect-error
-    return error.response.data || null
+  } catch (error: any) {
+    return thunkAPI.rejectWithValue(error.response.data)
   }
 })
 
 export const registerAdmin = createAsyncThunk('auth/registerAdmin', async ({ body }: { body: User }, thunkAPI) => {
-  const response = await http.post<LoginResponse>('authorization/registerAdmin', body, {
-    signal: thunkAPI.signal
-  })
-  return response.data
+  try {
+    const response = await http.post<LoginResponse>('authorization/registerAdmin', body, {
+      signal: thunkAPI.signal
+    })
+    return response.data
+  } catch (error: any) {
+    return thunkAPI.rejectWithValue(error.response.data)
+  }
 })

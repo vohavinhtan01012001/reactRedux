@@ -1,7 +1,8 @@
 import { AsyncThunk, PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { Category } from 'types/category.type'
-import { addCategory, deleteCategory, getCategoryList, updateCategory } from '../api/category.api'
+import { addCategory } from 'api/category.api'
+import { addProduct, deleteProduct, getProductList, showIdProduct } from 'api/product.api'
 import { toast } from 'react-toastify'
+import { Product } from 'types/product.type'
 import { Status } from 'types/status.type'
 
 type GenericAsyncThunk = AsyncThunk<unknown, unknown, any>
@@ -10,96 +11,76 @@ type PendingAction = ReturnType<GenericAsyncThunk['pending']>
 type RejectedAction = ReturnType<GenericAsyncThunk['rejected']>
 type FulfilledAction = ReturnType<GenericAsyncThunk['fulfilled']>
 
-interface CategoryState {
-  categoryList: Category[]
-  status: Status
-  edittingCategory: Category | null
+interface ProductState {
+  productList: Product[]
+  status: Status | null
+  edittingProduct: Product | null
   loading: boolean
   currentRequestId: undefined | string
 }
 
-const initialState: CategoryState = {
-  categoryList: [],
-  status: {
-    statusCode: 0,
-    message: ''
-  },
-  edittingCategory: null,
+const initialState: ProductState = {
+  productList: [],
+  status: null,
+  edittingProduct: null,
   loading: false,
   currentRequestId: undefined
 }
 
-const categorySlice = createSlice({
-  name: 'category',
+const productSlice = createSlice({
+  name: 'product',
   initialState,
-  reducers: {
-    showEditCategory: (state, action) => {
-      const categoryId = action.payload
-      const foundEdit = state.categoryList.find((c) => c.id === categoryId)
-      if (foundEdit) {
-        state.edittingCategory = foundEdit
-      }
-    },
-    cancelCategory: (state) => {
-      state.edittingCategory = null
-    }
-  },
+  reducers: {},
   extraReducers(builder) {
     builder
-      .addCase(getCategoryList.fulfilled, (state, action) => {
-        state.categoryList = action.payload.category
+      .addCase(getProductList.fulfilled, (state, action) => {
+        state.productList = action.payload.product
       })
-      .addCase(updateCategory.fulfilled, (state, action) => {
-        const { category, status } = action.payload
-        const updatedCategoryIndex = state.categoryList.findIndex((item) => item.id === category.id)
-
-        if (updatedCategoryIndex !== -1) {
-          state.categoryList[updatedCategoryIndex] = category
-        }
-        state.status = status
-        toast.success(action.payload.status.message, {
-          position: toast.POSITION.TOP_RIGHT
-        })
-      })
-      .addCase(updateCategory.rejected, (state, action: any) => {
-        if (action.payload.error) {
-          toast.error(action.payload.error, {
-            position: toast.POSITION.TOP_RIGHT
-          })
-        } else {
-          toast.error(action.payload.message, {
-            position: toast.POSITION.TOP_RIGHT
-          })
-        }
-      })
-      .addCase(deleteCategory.fulfilled, (state, action) => {
-        const foundIndex = state.categoryList.findIndex((c) => c.id === action.meta.arg)
-        if (foundIndex !== -1) {
-          state.categoryList.splice(foundIndex, 1)
-        }
-        toast.success(action.payload.status.message, {
-          position: toast.POSITION.TOP_RIGHT
-        })
-      })
-      .addCase(deleteCategory.rejected, (state, action: any) => {
-        if (action.payload.error) {
-          toast.error(action.payload.error, {
-            position: toast.POSITION.TOP_RIGHT
-          })
-        } else {
-          toast.error(action.payload.message, {
-            position: toast.POSITION.TOP_RIGHT
-          })
-        }
-      })
-      .addCase(addCategory.fulfilled, (state, action) => {
-        state.categoryList.push(action.payload.category)
+      .addCase(addProduct.fulfilled, (state, action) => {
+        state.productList.push(action.payload.product)
         state.status = action.payload.status
         toast.success(action.payload.status.message, {
           position: toast.POSITION.TOP_RIGHT
         })
       })
       .addCase(addCategory.rejected, (state, action: any) => {
+        if (action.payload.error) {
+          toast.error(action.payload.error, {
+            position: toast.POSITION.TOP_RIGHT
+          })
+        } else {
+          toast.error(action.payload.message, {
+            position: toast.POSITION.TOP_RIGHT
+          })
+        }
+      })
+      .addCase(deleteProduct.fulfilled, (state, action) => {
+        const foundIndex = state.productList.findIndex((c) => c.id === action.meta.arg)
+        if (foundIndex !== -1) {
+          state.productList.splice(foundIndex, 1)
+        }
+        toast.success(action.payload.message, {
+          position: toast.POSITION.TOP_RIGHT
+        })
+      })
+      .addCase(deleteProduct.rejected, (state, action: any) => {
+        if (action.payload.error) {
+          toast.error(action.payload.error, {
+            position: toast.POSITION.TOP_RIGHT
+          })
+        } else {
+          toast.error(action.payload.message, {
+            position: toast.POSITION.TOP_RIGHT
+          })
+        }
+      })
+      .addCase(showIdProduct.fulfilled, (state, action) => {
+        state.edittingProduct = action.payload.product
+        /*  toast.success(action.payload.status.message, {
+          position: toast.POSITION.TOP_RIGHT
+        }) */
+      })
+      .addCase(showIdProduct.rejected, (state, action: any) => {
         if (action.payload.error) {
           toast.error(action.payload.error, {
             position: toast.POSITION.TOP_RIGHT
@@ -129,7 +110,5 @@ const categorySlice = createSlice({
   }
 })
 
-export const { showEditCategory, cancelCategory } = categorySlice.actions
-
-const categoryReducer = categorySlice.reducer
-export default categoryReducer
+const productReducer = productSlice.reducer
+export default productReducer

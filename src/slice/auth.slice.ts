@@ -1,6 +1,6 @@
 import { AsyncThunk, PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { LoginResponse, User, UserLogin } from 'types/auth.type'
-import { Status } from 'types/status.type'
+import { ErrorResponse, Status } from 'types/status.type'
 import http from 'utils/http'
 import { login, register, registerAdmin } from '../api/auth.api'
 import { AxiosError } from 'axios'
@@ -43,13 +43,6 @@ const initialState: UserState = {
     password: ''
   },
   loginResponse: {
-    /* token: '',
-    refreshToken: '',
-    expiration: formattedExpiration,
-    name: '',
-    username: '',
-    statusCode: 0,
-    message: '' */
     user: {},
     accessToken: '',
     statusCode: 0,
@@ -61,11 +54,6 @@ const initialState: UserState = {
     statusCode: 0,
     message: ''
   }
-}
-
-interface ErrorResponse {
-  code: number
-  message: string
 }
 
 const userSlice = createSlice({
@@ -85,12 +73,9 @@ const userSlice = createSlice({
             position: toast.POSITION.TOP_RIGHT
           })
         }
-        console.log(action.payload)
       })
       .addCase(login.fulfilled, (state, action) => {
         state.loginResponse = action.payload
-        console.log(action.payload)
-        console.log(state.loginResponse)
         if (action.payload.statusCode === 1) {
           toast.success(action.payload.message, {
             position: toast.POSITION.TOP_RIGHT
@@ -105,22 +90,30 @@ const userSlice = createSlice({
       .addCase(registerAdmin.fulfilled, (state, action) => {
         state.statusUser = action.payload
       })
-    /* .addMatcher<PendingAction>(
-        (action) => action.type.endsWith('/pending'),
-        (state, action) => {
-           state.loading = true
-           state.currentRequestId = action.meta.requestId
+      .addCase(login.rejected, (state, action: any) => {
+        console.log(action.payload)
+        if (action.payload.error) {
+          toast.error(action.payload.error, {
+            position: toast.POSITION.TOP_RIGHT
+          })
+        } else {
+          toast.error(action.payload.message, {
+            position: toast.POSITION.TOP_RIGHT
+          })
         }
-      ) */
-    /*  .addMatcher<RejectedAction | FulfilledAction>(
-        (action) => action.type.endsWith('/rejected') || action.type.endsWith('/fulfilled'),
-        (state, action) => {
-          if (state.loading && state.currentRequestId === action.meta.requestId) {
-             state.loading = false
-            state.currentRequestId = undefined
-          }
+      })
+      .addCase(register.rejected, (state, action: any) => {
+        console.log(action.payload)
+        if (action.payload.error) {
+          toast.error(action.payload.error, {
+            position: toast.POSITION.TOP_RIGHT
+          })
+        } else {
+          toast.error(action.payload.message, {
+            position: toast.POSITION.TOP_RIGHT
+          })
         }
-      ) */
+      })
   }
 })
 

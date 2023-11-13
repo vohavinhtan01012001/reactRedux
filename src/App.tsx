@@ -1,10 +1,12 @@
 import DefaultLayout from 'layouts'
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
 import { authRouters, privateRoutes } from 'routes'
 
 function App() {
   return (
     <div className='App'>
+      <ToastContainer />
       <Router>
         <Routes>
           {/* client routes */}

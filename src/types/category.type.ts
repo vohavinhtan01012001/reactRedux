@@ -9,7 +9,7 @@ export interface CreateCategory {
   description: string
 }
 
-export interface EditCategory {
+export interface EdittingCategory {
   name: string
   description: string
 }
