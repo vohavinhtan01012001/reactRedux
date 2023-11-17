@@ -2,6 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import { CreateProduct, Product } from 'types/product.type'
 import { Status } from 'types/status.type'
 import http from 'utils/http'
+import { EdittingProduct } from '../types/product.type'
 
 export const getProductList = createAsyncThunk('product/getProductList', async (_, thunkAPI) => {
   const response = await http.get<{ status: string; product: Product[] }>('product/get-all', {
@@ -47,7 +48,7 @@ export const deleteProduct = createAsyncThunk('product/deleteProduct', async (pr
 
 export const showIdProduct = createAsyncThunk('product/showIdProduct', async (productId: number, thunkAPI) => {
   try {
-    const response = await http.get<{ status: Status; product: Product }>(`product/showById/${productId}`, {
+    const response = await http.get<{ status: Status; product: EdittingProduct }>(`product/showById/${productId}`, {
       signal: thunkAPI.signal
     })
     return response.data
@@ -55,3 +56,22 @@ export const showIdProduct = createAsyncThunk('product/showIdProduct', async (pr
     return thunkAPI.rejectWithValue(error.response.data)
   }
 })
+
+export const updateProduct = createAsyncThunk(
+  'product/updateProduct',
+  async ({ product, productId }: { product: any; productId: number }, thunkAPI) => {
+    try {
+      const response = await http<{ status: Status; product: EdittingProduct }>({
+        url: `product/update-product/${productId}`,
+        method: 'PATCH',
+        data: product,
+        headers: { 'Content-Type': 'multipart/form-data' },
+        signal: thunkAPI.signal
+      })
+      console.log(response)
+      return response.data
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data)
+    }
+  }
+)

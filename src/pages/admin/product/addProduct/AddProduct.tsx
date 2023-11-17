@@ -66,9 +66,8 @@ const AddProduct: React.FC = () => {
           })
           return
         }
-        console.log(values)
         await dispatch(addProduct(values))
-        
+
         console.log('Submitted values:', values)
       }}
     >

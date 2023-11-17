@@ -1,4 +1,5 @@
 import DefaultLayout from 'layouts'
+import Page404 from 'pages/pageError'
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import { authRouters, privateRoutes } from 'routes'
@@ -9,6 +10,7 @@ function App() {
       <ToastContainer />
       <Router>
         <Routes>
+          <Route path='*' element={<Page404 />} />
           {/* client routes */}
           {authRouters.map((route) => {
             const Page = route.component

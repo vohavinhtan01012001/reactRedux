@@ -1,8 +1,8 @@
 import { AsyncThunk, PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { addCategory } from 'api/category.api'
-import { addProduct, deleteProduct, getProductList, showIdProduct } from 'api/product.api'
+import { addProduct, deleteProduct, getProductList, showIdProduct, updateProduct } from 'api/product.api'
 import { toast } from 'react-toastify'
-import { Product } from 'types/product.type'
+import { EdittingProduct, Product } from 'types/product.type'
 import { Status } from 'types/status.type'
 
 type GenericAsyncThunk = AsyncThunk<unknown, unknown, any>
@@ -10,11 +10,10 @@ type GenericAsyncThunk = AsyncThunk<unknown, unknown, any>
 type PendingAction = ReturnType<GenericAsyncThunk['pending']>
 type RejectedAction = ReturnType<GenericAsyncThunk['rejected']>
 type FulfilledAction = ReturnType<GenericAsyncThunk['fulfilled']>
-
 interface ProductState {
   productList: Product[]
   status: Status | null
-  edittingProduct: Product | null
+  edittingProduct: EdittingProduct | null
   loading: boolean
   currentRequestId: undefined | string
 }
@@ -26,7 +25,6 @@ const initialState: ProductState = {
   loading: false,
   currentRequestId: undefined
 }
-
 const productSlice = createSlice({
   name: 'product',
   initialState,
@@ -76,20 +74,12 @@ const productSlice = createSlice({
       })
       .addCase(showIdProduct.fulfilled, (state, action) => {
         state.edittingProduct = action.payload.product
-        /*  toast.success(action.payload.status.message, {
-          position: toast.POSITION.TOP_RIGHT
-        }) */
+        console.log(action.payload.product)
       })
-      .addCase(showIdProduct.rejected, (state, action: any) => {
-        if (action.payload.error) {
-          toast.error(action.payload.error, {
-            position: toast.POSITION.TOP_RIGHT
-          })
-        } else {
-          toast.error(action.payload.message, {
-            position: toast.POSITION.TOP_RIGHT
-          })
-        }
+      .addCase(updateProduct.fulfilled, (state, action) => {
+        toast.success(action.payload.status.message, {
+          position: toast.POSITION.TOP_RIGHT
+        })
       })
       .addMatcher<PendingAction>(
         (action) => action.type.endsWith('/pending'),
