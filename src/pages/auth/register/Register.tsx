@@ -4,7 +4,7 @@ import { RootState, useAppDispatch } from 'store'
 import { toast } from 'react-toastify'
 import styles from '../auth.module.scss'
 import { register } from '../../../api/auth.api'
-import { signUpValidationSchema } from 'validaton/auth.valid'
+import { signUpValidationSchema } from 'validator/auth.valid'
 
 function Register() {
   const dispatch = useAppDispatch()

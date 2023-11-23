@@ -4,6 +4,8 @@ import Product from 'pages/admin/product'
 import AddProduct from 'pages/admin/product/addProduct'
 import EditProduct from 'pages/admin/product/editProduct'
 import DefaultAuth from 'pages/auth'
+import Promotion from '../pages/admin/promotion/Promotion'
+import AddProductList from 'pages/admin/promotion/addProductList'
 
 const authRouters = [
   {
@@ -20,11 +22,11 @@ const privateRoutes = [
     component: Product
   },
   {
-    path: '/categories',
+    path: '/category',
     component: Category
   },
   {
-    path: '/products',
+    path: '/product',
     component: Product
   },
   {
@@ -38,6 +40,14 @@ const privateRoutes = [
   {
     path: '/loading',
     component: Loading
+  },
+  {
+    path: '/promotion',
+    component: Promotion
+  },
+  {
+    path: '/promotion/add-product/:id',
+    component: AddProductList
   }
 ]
 

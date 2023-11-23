@@ -1,14 +1,13 @@
 import React from 'react'
-import ListCategory from './listCategory'
-import { ToastContainer } from 'react-toastify'
+import ListPromotion from './listPromotion'
 
-export default function Category() {
+export default function Promotion() {
   return (
     <>
       <div className=''>
         <div className='ml-auto mr-auto mt-5'>
           <div className='mx-auto mt-36 w-4/5'>
-            <ListCategory />
+            <ListPromotion />
           </div>
         </div>
       </div>

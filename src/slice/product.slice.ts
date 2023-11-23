@@ -1,6 +1,13 @@
 import { AsyncThunk, PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { addCategory } from 'api/category.api'
-import { addProduct, deleteProduct, getProductList, showIdProduct, updateProduct } from 'api/product.api'
+import {
+  addProduct,
+  deleteProduct,
+  getProductList,
+  showIdProduct,
+  updateProduct,
+  updateStatusProduct
+} from 'api/product.api'
 import { toast } from 'react-toastify'
 import { EdittingProduct, Product } from 'types/product.type'
 import { Status } from 'types/status.type'
@@ -81,8 +88,28 @@ const productSlice = createSlice({
           position: toast.POSITION.TOP_RIGHT
         })
       })
+      .addCase(updateStatusProduct.fulfilled, (state, action) => {
+        /* const foundIndex = state.productList.findIndex((c) => c.id === action.meta.arg.productId)
+        if (foundIndex !== -1) {
+          state.productList[foundIndex].status = action.meta.arg.status
+        } */
+        toast.success(action.payload.status.message, {
+          position: toast.POSITION.TOP_RIGHT
+        })
+      })
+      .addCase(updateStatusProduct.rejected, (state, action: any) => {
+        if (action.payload.error) {
+          toast.error(action.payload.error, {
+            position: toast.POSITION.TOP_RIGHT
+          })
+        } else {
+          toast.error(action.payload.message, {
+            position: toast.POSITION.TOP_RIGHT
+          })
+        }
+      })
       .addMatcher<PendingAction>(
-        (action) => action.type.endsWith('/pending'),
+        (action) => action.type.endsWith('/pending') && action.type !== updateStatusProduct.pending.type,
         (state, action) => {
           state.loading = true
           state.currentRequestId = action.meta.requestId

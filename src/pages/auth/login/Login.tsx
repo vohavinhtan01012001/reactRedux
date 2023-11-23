@@ -5,7 +5,7 @@ import { useAppDispatch } from 'store'
 import styles from '../auth.module.scss' // Import CSS
 import { login } from '../../../api/auth.api'
 import { useNavigate } from 'react-router-dom'
-import { signInValidationSchema } from 'validaton/auth.valid'
+import { signInValidationSchema } from 'validator/auth.valid'
 
 function Login() {
   const dispatch = useAppDispatch()

@@ -6,7 +6,6 @@ export const createCategorySchema = Yup.object({
 })
 
 export const updateCategorySchema = Yup.object({
-  id: Yup.number(),
   name: Yup.string().required(),
   description: Yup.string()
 })

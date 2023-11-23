@@ -2,15 +2,23 @@ import React, { useState } from 'react'
 interface ImageUploadFieldProps {
   setImages: React.Dispatch<React.SetStateAction<File[]>>
   images: File[]
+  des: string
 }
 
-const ImageUploadField: React.FC<ImageUploadFieldProps> = ({ setImages, images }) => {
+const ImageUploadField: React.FC<ImageUploadFieldProps> = ({ setImages, images, des }) => {
   const handleImageChange = (e: any) => {
     const files = e.target.files
 
-    if (files.length > 0) {
-      const selectedImages: any = Array.from(files).slice(0, 4) // Lấy tối đa 4 hình ảnh
-      setImages(selectedImages)
+    if (des === 'add') {
+      if (files.length > 0) {
+        const selectedImages: any = Array.from(files).slice(0, 4) // Lấy tối đa 4 hình ảnh
+        setImages(selectedImages)
+      }
+    } else {
+      if (files.length > 0) {
+        const selectedImage: any = files[0] // Chỉ lấy hình ảnh đầu tiên
+        setImages([selectedImage])
+      }
     }
   }
 
@@ -28,7 +36,7 @@ const ImageUploadField: React.FC<ImageUploadFieldProps> = ({ setImages, images }
         file:text-pink-700 hover:file:bg-pink-100'
       />
       <div className='flex'>
-        {images.map((image, index) => (
+        {images?.map((image, index) => (
           <img
             key={index}
             src={URL.createObjectURL(image)}

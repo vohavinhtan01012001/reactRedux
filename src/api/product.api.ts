@@ -75,3 +75,20 @@ export const updateProduct = createAsyncThunk(
     }
   }
 )
+
+export const updateStatusProduct = createAsyncThunk(
+  'product/updateStatusPromotion',
+  async ({ status, productId }: { status: any; productId: number }, thunkAPI) => {
+    try {
+      const response = await http<{ status: Status }>({
+        url: `product/update-status/${productId}`,
+        method: 'PATCH',
+        data: { status },
+        signal: thunkAPI.signal
+      })
+      return response.data
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data)
+    }
+  }
+)

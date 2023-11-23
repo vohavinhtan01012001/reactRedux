@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -31,4 +32,55 @@
 }
 .css-dev-only-do-not-override-xu9wm8 > label {
   margin: 0;
+}
+
+
+
+.adminLayout {
+  @apply flex h-[calc(100vh-4rem)] overflow-hidden bg-slate-100 md:h-screen;
+}
+
+.mainWrapper {
+  @apply flex flex-1 flex-col overflow-x-hidden overflow-y-scroll;
+}
+
+.mainCard {
+  @apply mx-auto p-4 md:px-6 md:py-6 md:pb-6 md:pt-8 lg:px-8;
+}
+
+.widgetCard {
+  @apply rounded-md border border-slate-300 text-sm shadow-md;
+}
+
+.scrolledCard {
+  @apply w-[160px] flex-shrink-0 cursor-pointer rounded-md px-2 py-4 text-sm md:flex-shrink lg:w-1/5;
+}
+
+.cardInfo {
+  @apply border border-sky-400 bg-sky-200 text-sky-900;
+}
+
+.cardWarning {
+  @apply border border-amber-400 bg-amber-200 text-amber-900;
+}
+
+.cardDanger {
+  @apply border border-red-400  bg-red-200 text-red-900;
+}
+
+.cardSuccess {
+  @apply border border-emerald-400  bg-emerald-200 text-emerald-900;
+}
+
+.cardLime {
+  @apply border border-lime-400  bg-lime-200 text-lime-900;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }

@@ -6,7 +6,7 @@ import { useAppDispatch } from 'store'
 import ButtonCusTom from 'component/button'
 import TextArea from 'antd/es/input/TextArea'
 import { addCategory } from 'api/category.api'
-import { createCategorySchema } from 'validaton/category.valid'
+import { createCategorySchema } from 'validator/category.valid'
 
 function AddCategory(): JSX.Element {
   const [isModalOpen, setIsModalOpen] = useState(false)

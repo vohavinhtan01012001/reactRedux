@@ -10,17 +10,13 @@ import { EditFilled } from '@ant-design/icons'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup' // Import Yup
 import { updateCategory } from 'api/category.api'
+import { updateCategorySchema } from 'validator/category.valid'
 
 const EditCategory: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const edittingCategory = useSelector((state: RootState) => state.category.edittingCategory)
 
   const dispatch = useAppDispatch()
-
-  const validationSchema = Yup.object({
-    name: Yup.string().required('Name is required'),
-    description: Yup.string().required('Description is required')
-  })
 
   const handleSubmit = (values: EdittingCategory) => {
     const categorySubmit = {
@@ -54,7 +50,7 @@ const EditCategory: React.FC = () => {
       <Modal title='Basic Modal' visible={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
         <Formik
           initialValues={edittingCategory ?? { id: 0, name: '', description: '' }}
-          validationSchema={validationSchema}
+          validationSchema={updateCategorySchema}
           onSubmit={handleSubmit}
         >
           <Form>
