@@ -6,6 +6,7 @@ import EditProduct from 'pages/admin/product/editProduct'
 import DefaultAuth from 'pages/auth'
 import Promotion from '../pages/admin/promotion/Promotion'
 import AddProductList from 'pages/admin/promotion/addProductList'
+import ShowListProduct from 'pages/admin/promotion/showListProduct'
 
 const authRouters = [
   {
@@ -48,6 +49,10 @@ const privateRoutes = [
   {
     path: '/promotion/add-product/:id',
     component: AddProductList
+  },
+  {
+    path: '/promotion/list-product/:id',
+    component: ShowListProduct
   }
 ]
 

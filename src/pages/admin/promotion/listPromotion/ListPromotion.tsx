@@ -1,4 +1,4 @@
-import { CloseSquareFilled, PlusCircleOutlined } from '@ant-design/icons'
+import { CloseSquareFilled, ContainerOutlined, PlusCircleOutlined } from '@ant-design/icons'
 import { deletePromotion, getPromotionList, updateStatusPromotion } from 'api/promotion.api'
 import DateFormatter from 'component/dateFormatter/DateFormatter'
 import React, { useEffect, useState } from 'react'
@@ -151,6 +151,9 @@ export default function ListPromotion() {
                 </div>
               </th>
               <th scope='col' className='px-6 py-3'>
+                <span className='sr-only'>Add-Product</span>
+              </th>
+              <th scope='col' className='px-6 py-3'>
                 <span className='sr-only'>Add</span>
               </th>
               <th scope='col' className='px-6 py-3'>
@@ -183,6 +186,11 @@ export default function ListPromotion() {
                   <td className='px-6 py-4'>{<DateFormatter date={item.endDate} />}</td>
                   <td className='px-6 py-4'>
                     <SelectStatus status={item.status} id={item.id} onChange={handleEditStatus} />
+                  </td>
+                  <td className='px-6 py-4 text-right'>
+                    <button onClick={() => history('list-product/' + item.id)}>
+                      <ContainerOutlined rev='someValue' className='text-lg text-emerald-600' />
+                    </button>
                   </td>
                   <td className='px-6 py-4 text-right'>
                     <button onClick={() => history('add-product/' + item.id)}>

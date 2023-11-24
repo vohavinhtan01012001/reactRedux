@@ -1,9 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
+import { Product } from 'types/product.type'
 import { CreatePromotion, Promotion, UpdatePromotion } from 'types/promotion.type'
 import { Status } from 'types/status.type'
 import http from 'utils/http'
 
-export const getPromotionList = createAsyncThunk('promotion/getProductList', async (_, thunkAPI) => {
+export const getPromotionList = createAsyncThunk('promotion/getPromotionList', async (_, thunkAPI) => {
   const response = await http.get<{ status: string; promotion: Promotion[] }>('promotion/get-all', {
     signal: thunkAPI.signal
   })
@@ -70,3 +71,45 @@ export const deletePromotion = createAsyncThunk('promotion/deletePromotion', asy
     return thunkAPI.rejectWithValue(error.response.data)
   }
 })
+
+export const getListAddProduct = createAsyncThunk('promotion/getProductList', async (id: number, thunkAPI) => {
+  try {
+    const response = await http.get<{ product: Product[] }>(`promotion/get-allproduct/${id}`, {
+      signal: thunkAPI.signal
+    })
+    return response.data
+  } catch (error: any) {
+    return thunkAPI.rejectWithValue(error.response.data)
+  }
+})
+
+export const addProductInPromotion = createAsyncThunk(
+  'promotion/addProductInPromotion',
+  async ({ checklist, id }: { checklist: any[]; id: number }, thunkAPI) => {
+    try {
+      const response = await http<{ status: Status; product: Product[] }>({
+        url: `promotion/update-product/${id}`,
+        method: 'PATCH',
+        data: checklist,
+        signal: thunkAPI.signal
+      })
+      return response.data
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data)
+    }
+  }
+)
+
+export const getListShowListProduct = createAsyncThunk(
+  'promotion/getListShowListProduct',
+  async (id: number, thunkAPI) => {
+    try {
+      const response = await http.get<{ product: Product[] }>(`promotion/get-product-promotion/${id}`, {
+        signal: thunkAPI.signal
+      })
+      return response.data
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data)
+    }
+  }
+)

@@ -1,12 +1,16 @@
 import { AsyncThunk, createSlice } from '@reduxjs/toolkit'
 import {
+  addProductInPromotion,
   addPromotion,
   deletePromotion,
+  getListAddProduct,
+  getListShowListProduct,
   getPromotionList,
   updatePromotion,
   updateStatusPromotion
 } from 'api/promotion.api'
 import { toast } from 'react-toastify'
+import { Product } from 'types/product.type'
 import { Promotion } from 'types/promotion.type'
 import { Status } from 'types/status.type'
 
@@ -18,6 +22,7 @@ type FulfilledAction = ReturnType<GenericAsyncThunk['fulfilled']>
 
 interface PromotionState {
   promotionList: Promotion[]
+  productListOfPromotion: Product[]
   status: Status
   edittingPromotion: Promotion | null
   loading: boolean
@@ -26,6 +31,7 @@ interface PromotionState {
 
 const initialState: PromotionState = {
   promotionList: [],
+  productListOfPromotion: [],
   status: {
     statusCode: 0,
     message: ''
@@ -62,32 +68,10 @@ const promotionSlice = createSlice({
           position: toast.POSITION.TOP_RIGHT
         })
       })
-      .addCase(addPromotion.rejected, (state, action: any) => {
-        if (action.payload.error) {
-          toast.error(action.payload.error, {
-            position: toast.POSITION.TOP_RIGHT
-          })
-        } else {
-          toast.error(action.payload.message, {
-            position: toast.POSITION.TOP_RIGHT
-          })
-        }
-      })
       .addCase(updateStatusPromotion.fulfilled, (state, action) => {
         toast.success(action.payload.status.message, {
           position: toast.POSITION.TOP_RIGHT
         })
-      })
-      .addCase(updateStatusPromotion.rejected, (state, action: any) => {
-        if (action.payload.error) {
-          toast.error(action.payload.error, {
-            position: toast.POSITION.TOP_RIGHT
-          })
-        } else {
-          toast.error(action.payload.message, {
-            position: toast.POSITION.TOP_RIGHT
-          })
-        }
       })
       .addCase(updatePromotion.fulfilled, (state, action) => {
         const { promotion, status } = action.payload
@@ -99,17 +83,6 @@ const promotionSlice = createSlice({
           position: toast.POSITION.TOP_RIGHT
         })
       })
-      .addCase(updatePromotion.rejected, (state, action: any) => {
-        if (action.payload.error) {
-          toast.error(action.payload.error, {
-            position: toast.POSITION.TOP_RIGHT
-          })
-        } else {
-          toast.error(action.payload.message, {
-            position: toast.POSITION.TOP_RIGHT
-          })
-        }
-      })
       .addCase(deletePromotion.fulfilled, (state, action) => {
         const foundIndex = state.promotionList.findIndex((c) => c.id === action.meta.arg)
         if (foundIndex !== -1) {
@@ -119,16 +92,23 @@ const promotionSlice = createSlice({
           position: toast.POSITION.TOP_RIGHT
         })
       })
-      .addCase(deletePromotion.rejected, (state, action: any) => {
-        if (action.payload.error) {
-          toast.error(action.payload.error, {
-            position: toast.POSITION.TOP_RIGHT
-          })
+      .addCase(getListAddProduct.fulfilled, (state, action) => {
+        if (action.payload.product.length > 0) {
+          state.productListOfPromotion = action.payload.product
         } else {
-          toast.error(action.payload.message, {
+          toast.warning('empty product list', {
             position: toast.POSITION.TOP_RIGHT
           })
         }
+      })
+      .addCase(addProductInPromotion.fulfilled, (state, action) => {
+        state.productListOfPromotion = action.payload.product
+        toast.success(action.payload.status.message, {
+          position: toast.POSITION.TOP_RIGHT
+        })
+      })
+      .addCase(getListShowListProduct.fulfilled, (state, action) => {
+        state.productListOfPromotion = action.payload.product
       })
       .addMatcher<PendingAction>(
         (action) => action.type.endsWith('/pending'),
@@ -137,9 +117,25 @@ const promotionSlice = createSlice({
           state.currentRequestId = action.meta.requestId
         }
       )
-      .addMatcher<RejectedAction | FulfilledAction>(
-        (action) => action.type.endsWith('/rejected') || action.type.endsWith('/fulfilled'),
+      .addMatcher<RejectedAction>(
+        (action) => action.type.endsWith('/rejected'),
         (state, action) => {
+          const errorPayload = action.payload as { error?: string; message?: string }
+          const errorMessage = errorPayload.error ?? errorPayload.message ?? 'Unknown error'
+
+          toast.error(errorMessage, {
+            position: toast.POSITION.TOP_RIGHT
+          })
+
+          if (state.loading && state.currentRequestId === action.meta.requestId) {
+            state.loading = false
+            state.currentRequestId = undefined
+          }
+        }
+      )
+      .addMatcher<FulfilledAction>(
+        (action) => action.type.endsWith('/fulfilled'),
+        (state, action: any) => {
           if (state.loading && state.currentRequestId === action.meta.requestId) {
             state.loading = false
             state.currentRequestId = undefined

@@ -1,40 +1,27 @@
-import ButtonCusTom from 'component/button'
 import Skeleton from 'component/skeleton'
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { RootState, useAppDispatch } from 'store'
-import Checkbox, { CheckboxChangeEvent } from 'antd/es/checkbox'
 import CurrencyFormatter from 'component/currencyFormatter'
-import { addProductInPromotion, getListAddProduct } from 'api/promotion.api'
+import { getListShowListProduct } from 'api/promotion.api'
 
-export default function AddProductList() {
+export default function ShowListProduct() {
   const productList = useSelector((state: RootState) => state.promotion.productListOfPromotion)
   const loading = useSelector((state: RootState) => state.promotion.loading)
   const dispatch = useAppDispatch()
-  const [listCheck, setListCheck] = useState([])
+
   const { id } = useParams()
   useEffect(() => {
     const ids: number = Number(id)
-    const promise = dispatch(getListAddProduct(ids))
+    const promise = dispatch(getListShowListProduct(ids))
 
     return () => {
       promise.abort()
     }
   }, [dispatch, id])
   console.log(productList)
-  const handleCheck = (e: CheckboxChangeEvent, id: number) => {
-    console.log(e.target.checked)
-    if (e.target.checked === true) {
-      setListCheck({ ...listCheck, [`id${id}:`]: id })
-    } else {
-      setListCheck({ ...listCheck, [`id${id}:`]: 0 })
-    }
-  }
-  const handlSubmit = () => {
-    const ids: number = Number(id)
-    dispatch(addProductInPromotion({ checklist: listCheck, id: ids }))
-  }
+
   return (
     <>
       <div className=''>
@@ -44,7 +31,6 @@ export default function AddProductList() {
               <table className='w-full text-left text-sm text-gray-500 dark:text-gray-400'>
                 <thead className='bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400'>
                   <tr>
-                    <th scope='col' className='px-6 py-3'></th>
                     <th scope='col' className='px-6 py-3'>
                       #
                     </th>
@@ -144,16 +130,9 @@ export default function AddProductList() {
                     </Fragment>
                   )}
                   {!loading &&
-                    productList.length > 0 &&
-                    productList.map((item, index) => {
+                    productList?.map((item, index) => {
                       return (
                         <tr className='border-b bg-white dark:border-gray-700 dark:bg-gray-800'>
-                          <th
-                            scope='row'
-                            className='whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white'
-                          >
-                            <Checkbox onChange={(e) => handleCheck(e, item.id)} className='w-9' />
-                          </th>
                           <th
                             scope='row'
                             className='whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white'
@@ -182,16 +161,6 @@ export default function AddProductList() {
               </table>
             </div>
           </div>
-
-          {!loading && productList.length === 0 ? (
-            ''
-          ) : (
-            <div className='mx-auto my-8 block w-1/4'>
-              <div className='mx-auto '>
-                <ButtonCusTom type='button' label='Submit' onClick={handlSubmit} length='long' />
-              </div>
-            </div>
-          )}
         </div>
       </div>
     </>
