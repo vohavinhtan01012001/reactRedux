@@ -4,7 +4,9 @@ import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { RootState, useAppDispatch } from 'store'
 import CurrencyFormatter from 'component/currencyFormatter'
-import { getListShowListProduct } from 'api/promotion.api'
+import { deleteProductInPromotion, getListShowListProduct } from 'api/promotion.api'
+import { CloseSquareFilled } from '@ant-design/icons'
+import Swal from 'sweetalert2'
 
 export default function ShowListProduct() {
   const productList = useSelector((state: RootState) => state.promotion.productListOfPromotion)
@@ -22,6 +24,21 @@ export default function ShowListProduct() {
   }, [dispatch, id])
   console.log(productList)
 
+  const handleDelete = (id: number) => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(deleteProductInPromotion(id))
+      }
+    })
+  }
   return (
     <>
       <div className=''>
@@ -117,6 +134,9 @@ export default function ShowListProduct() {
                         </a>
                       </div>
                     </th>
+                    <th scope='col' className='px-6 py-3'>
+                      <div className='flex items-center'></div>
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -153,6 +173,14 @@ export default function ShowListProduct() {
                           </td>
                           <td className='px-6 py-4'>
                             {item.gender === 0 ? 'Male' : item.gender === 1 ? 'Female' : 'Both'}
+                          </td>
+                          <td className='px-6 py-4 text-right'>
+                            <button
+                              onClick={(e) => handleDelete(item.id)}
+                              className='font-medium text-red-600 hover:underline dark:text-red-500'
+                            >
+                              <CloseSquareFilled rev='someValue' className='rounded-xl text-lg' />
+                            </button>
                           </td>
                         </tr>
                       )

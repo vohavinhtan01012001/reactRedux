@@ -1,12 +1,13 @@
 import Loading from 'component/loading/Loading'
-import Category from 'pages/admin/category'
-import Product from 'pages/admin/product'
-import AddProduct from 'pages/admin/product/addProduct'
-import EditProduct from 'pages/admin/product/editProduct'
 import DefaultAuth from 'pages/auth'
 import Promotion from '../pages/admin/promotion/Promotion'
-import AddProductList from 'pages/admin/promotion/addProductList'
-import ShowListProduct from 'pages/admin/promotion/showListProduct'
+import AddProduct from 'pages/admin/product/AddProduct'
+import EditProduct from 'pages/admin/product/EditProduct'
+import Product from 'pages/admin/product/Product'
+import Category from 'pages/admin/category/Category'
+import AddProductList from 'pages/admin/promotion/AddProductList'
+import ShowListProduct from 'pages/admin/promotion/ShowListProduct'
+import Home from 'pages/client/home/Home'
 
 const authRouters = [
   {
@@ -15,7 +16,12 @@ const authRouters = [
   }
 ]
 
-const publicRoutes = []
+const publicRoutes = [
+  {
+    path: '/',
+    component: Home
+  }
+]
 
 const privateRoutes = [
   {
@@ -56,4 +62,4 @@ const privateRoutes = [
   }
 ]
 
-export { privateRoutes, authRouters }
+export { privateRoutes, authRouters, publicRoutes }

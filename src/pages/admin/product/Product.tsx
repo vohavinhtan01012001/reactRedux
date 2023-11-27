@@ -1,5 +1,5 @@
 import React from 'react'
-import ListProduct from './listProduct'
+import ListProduct from './ListProduct'
 
 export default function Product() {
   return (

@@ -12,7 +12,9 @@ export default function AddProductList() {
   const productList = useSelector((state: RootState) => state.promotion.productListOfPromotion)
   const loading = useSelector((state: RootState) => state.promotion.loading)
   const dispatch = useAppDispatch()
-  const [listCheck, setListCheck] = useState([])
+  const [listCheck, setListCheck] = useState<any>([])
+  const [check, setCheck] = useState<boolean>(false)
+  const [checkShow, setCheckShow] = useState<boolean>(false)
   const { id } = useParams()
   useEffect(() => {
     const ids: number = Number(id)
@@ -26,13 +28,33 @@ export default function AddProductList() {
   const handleCheck = (e: CheckboxChangeEvent, id: number) => {
     console.log(e.target.checked)
     if (e.target.checked === true) {
-      setListCheck({ ...listCheck, [`id${id}:`]: id })
+      setListCheck([...listCheck, id])
     } else {
-      setListCheck({ ...listCheck, [`id${id}:`]: 0 })
+      const foundIndex = listCheck.findIndex((c: any) => c === id)
+      if (foundIndex !== -1) {
+        listCheck.splice(foundIndex, 1)
+      }
     }
   }
+
+  const handleAllCheck = (e: any) => {
+    if (e.target.checked === true) {
+      const value: number[] = []
+      for (let i = 0; i < productList.length; i++) {
+        value.push(productList[i].id)
+      }
+      console.log(value)
+      setListCheck(value)
+      setCheck(true)
+    } else {
+      setListCheck([])
+      setCheck(false)
+    }
+  }
+  console.log(check)
   const handlSubmit = () => {
     const ids: number = Number(id)
+    console.log(listCheck)
     dispatch(addProductInPromotion({ checklist: listCheck, id: ids }))
   }
   return (
@@ -40,6 +62,16 @@ export default function AddProductList() {
       <div className=''>
         <div className='ml-auto mr-auto mt-5'>
           <div className='mx-auto mt-36 w-4/5'>
+            {!loading && productList.length === 0 ? (
+              ''
+            ) : (
+              <>
+                <div className='mx-auto my-8 block'>
+                  <Checkbox onChange={(e) => handleAllCheck(e)} className='w-9' />
+                  <span className='font-bold'>All Check</span>
+                </div>
+              </>
+            )}
             <div className='relative overflow-x-auto shadow-md sm:rounded-lg'>
               <table className='w-full text-left text-sm text-gray-500 dark:text-gray-400'>
                 <thead className='bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400'>
@@ -145,6 +177,7 @@ export default function AddProductList() {
                   )}
                   {!loading &&
                     productList.length > 0 &&
+                    check == false &&
                     productList.map((item, index) => {
                       return (
                         <tr className='border-b bg-white dark:border-gray-700 dark:bg-gray-800'>
@@ -178,6 +211,42 @@ export default function AddProductList() {
                         </tr>
                       )
                     })}
+                  {!loading &&
+                    productList.length > 0 &&
+                    check === true &&
+                    productList.map((item, index) => {
+                      return (
+                        <tr className='border-b bg-white dark:border-gray-700 dark:bg-gray-800'>
+                          <th
+                            scope='row'
+                            className='whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white'
+                          >
+                            <Checkbox onChange={(e) => handleCheck(e, item.id)} className='w-9' defaultChecked={true} />
+                          </th>
+                          <th
+                            scope='row'
+                            className='whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white'
+                          >
+                            {index + 1}
+                          </th>
+                          <th
+                            scope='row'
+                            className='whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white'
+                          >
+                            {item.name}
+                          </th>
+                          <td className='px-6 py-4'>{item.Category?.name}</td>
+                          <td className='px-6 py-4'>{CurrencyFormatter(item.price)}</td>
+                          <td className='px-6 py-4'>{CurrencyFormatter(item.priceReduced)}</td>
+                          <td className='px-6 py-4'>
+                            <img src={item.image} alt={item.name} width={50} />
+                          </td>
+                          <td className='px-6 py-4'>
+                            {item.gender === 0 ? 'Male' : item.gender === 1 ? 'Female' : 'Both'}
+                          </td>
+                        </tr>
+                      )
+                    })}
                 </tbody>
               </table>
             </div>
@@ -186,11 +255,13 @@ export default function AddProductList() {
           {!loading && productList.length === 0 ? (
             ''
           ) : (
-            <div className='mx-auto my-8 block w-1/4'>
-              <div className='mx-auto '>
-                <ButtonCusTom type='button' label='Submit' onClick={handlSubmit} length='long' />
+            <>
+              <div className='mx-auto my-8 block w-1/4'>
+                <div className='mx-auto '>
+                  <ButtonCusTom type='button' label='Submit' onClick={handlSubmit} length='long' />
+                </div>
               </div>
-            </div>
+            </>
           )}
         </div>
       </div>

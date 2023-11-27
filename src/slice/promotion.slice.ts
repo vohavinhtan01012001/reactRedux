@@ -2,6 +2,7 @@ import { AsyncThunk, createSlice } from '@reduxjs/toolkit'
 import {
   addProductInPromotion,
   addPromotion,
+  deleteProductInPromotion,
   deletePromotion,
   getListAddProduct,
   getListShowListProduct,
@@ -109,6 +110,26 @@ const promotionSlice = createSlice({
       })
       .addCase(getListShowListProduct.fulfilled, (state, action) => {
         state.productListOfPromotion = action.payload.product
+      })
+      .addCase(deleteProductInPromotion.fulfilled, (state, action) => {
+        const foundIndex = state.productListOfPromotion.findIndex((c) => c.id === action.meta.arg)
+        if (foundIndex !== -1) {
+          state.productListOfPromotion.splice(foundIndex, 1)
+        }
+        toast.success(action.payload.message, {
+          position: toast.POSITION.TOP_RIGHT
+        })
+      })
+      .addCase(deleteProductInPromotion.rejected, (state, action: any) => {
+        if (action.payload.error) {
+          toast.error(action.payload.error, {
+            position: toast.POSITION.TOP_RIGHT
+          })
+        } else {
+          toast.error(action.payload.message, {
+            position: toast.POSITION.TOP_RIGHT
+          })
+        }
       })
       .addMatcher<PendingAction>(
         (action) => action.type.endsWith('/pending'),

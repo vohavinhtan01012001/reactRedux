@@ -1,6 +1,6 @@
 import React from 'react'
-import ListCategory from './listCategory'
 import { ToastContainer } from 'react-toastify'
+import ListCategory from './ListCategory'
 
 export default function Category() {
   return (

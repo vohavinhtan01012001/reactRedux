@@ -1,5 +1,5 @@
 import React from 'react'
-import ListPromotion from './listPromotion'
+import ListPromotion from './ListPromotion'
 
 export default function Promotion() {
   return (

@@ -1,9 +1,9 @@
-import DefaultLayout from 'layouts'
-import Product from 'pages/admin/product'
+import DefaultLayout from 'layouts/admin'
+import DefaultLayoutClient from 'layouts/client/DefaultLayoutClient'
 import Page404 from 'pages/pageError'
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
-import { authRouters, privateRoutes } from 'routes'
+import { authRouters, privateRoutes, publicRoutes } from 'routes'
 
 function App() {
   return (
@@ -25,6 +25,17 @@ function App() {
                 <DefaultLayout>
                   <route.component />
                 </DefaultLayout>
+              }
+            />
+          ))}
+          {publicRoutes.map((route) => (
+            <Route
+              key={route.path}
+              path={route.path}
+              element={
+                <DefaultLayoutClient>
+                  <route.component />
+                </DefaultLayoutClient>
               }
             />
           ))}

@@ -3,12 +3,12 @@ import { useSelector } from 'react-redux'
 import { RootState, useAppDispatch } from 'store'
 import { Category } from 'types/category.type'
 import Swal from 'sweetalert2'
-import AddCategory from '../addCategory'
 import Skeleton from 'component/skeleton'
-import EditCategory from '../editCategory'
 import { CloseSquareFilled } from '@ant-design/icons'
 import { showEditCategory } from 'slice/category.slice'
 import { deleteCategory, getCategoryList } from 'api/category.api'
+import AddCategory from './AddCategory'
+import EditCategory from './EditCategory'
 
 export default function ListCategory() {
   const categoryList = useSelector((state: RootState) => state.category.categoryList)

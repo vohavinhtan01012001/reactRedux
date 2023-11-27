@@ -113,3 +113,17 @@ export const getListShowListProduct = createAsyncThunk(
     }
   }
 )
+
+export const deleteProductInPromotion = createAsyncThunk(
+  'promotion/deleteProductInPromotion',
+  async (id: number, thunkAPI) => {
+    try {
+      const response = await http.patch<Status>(`promotion/delete-product/${id}`, {
+        signal: thunkAPI.signal
+      })
+      return response.data
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.response.data)
+    }
+  }
+)
