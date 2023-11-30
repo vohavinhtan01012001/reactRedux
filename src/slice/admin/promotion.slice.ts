@@ -7,9 +7,10 @@ import {
   getListAddProduct,
   getListShowListProduct,
   getPromotionList,
+  searchPromotion,
   updatePromotion,
   updateStatusPromotion
-} from 'api/promotion.api'
+} from 'api/admin/promotion.api'
 import { toast } from 'react-toastify'
 import { Product } from 'types/product.type'
 import { Promotion } from 'types/promotion.type'
@@ -130,6 +131,9 @@ const promotionSlice = createSlice({
             position: toast.POSITION.TOP_RIGHT
           })
         }
+      })
+      .addCase(searchPromotion.fulfilled, (state, action) => {
+        state.promotionList = action.payload.promotion
       })
       .addMatcher<PendingAction>(
         (action) => action.type.endsWith('/pending'),

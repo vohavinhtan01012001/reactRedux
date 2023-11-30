@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux'
 import { RootState, useAppDispatch } from 'store'
 import { updatePromotionSchema } from 'validator/promotion.valid'
 import dayjs from 'dayjs'
-import { updatePromotion } from 'api/promotion.api'
+import { updatePromotion } from 'api/admin/promotion.api'
 import { Promotion, UpdatePromotion } from 'types/promotion.type'
 
 const convertToCustomFormat = (inputDate: string) => {

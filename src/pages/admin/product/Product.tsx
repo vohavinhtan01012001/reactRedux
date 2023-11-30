@@ -1,5 +1,6 @@
 import React from 'react'
 import ListProduct from './ListProduct'
+import SearchAdmin from 'component/search/SearchAdmin'
 
 export default function Product() {
   return (

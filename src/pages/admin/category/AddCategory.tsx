@@ -5,7 +5,7 @@ import { CreateCategory } from 'types/category.type'
 import { useAppDispatch } from 'store'
 import ButtonCusTom from 'component/button'
 import TextArea from 'antd/es/input/TextArea'
-import { addCategory } from 'api/category.api'
+import { addCategory } from 'api/admin/category.api'
 import { createCategorySchema } from 'validator/category.valid'
 
 function AddCategory(): JSX.Element {

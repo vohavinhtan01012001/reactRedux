@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import { CreateProduct, Product } from 'types/product.type'
 import { Status } from 'types/status.type'
 import http from 'utils/http'
-import { EdittingProduct } from '../types/product.type'
+import { EdittingProduct } from '../../types/product.type'
 
 export const getProductList = createAsyncThunk('product/getProductList', async (_, thunkAPI) => {
   const response = await http.get<{ status: string; product: Product[] }>('product/get-all', {
@@ -92,3 +92,17 @@ export const updateStatusProduct = createAsyncThunk(
     }
   }
 )
+
+export const searchProduct = createAsyncThunk('product/searchProduct', async (name: string, thunkAPI) => {
+  try {
+    const response = await http<{ product: Product[] }>({
+      url: `product/search`,
+      method: 'PATCH',
+      data: { name },
+      signal: thunkAPI.signal
+    })
+    return response.data
+  } catch (error: any) {
+    return thunkAPI.rejectWithValue(error.response.data)
+  }
+})

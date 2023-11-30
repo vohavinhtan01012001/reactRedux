@@ -16,33 +16,27 @@ import {
   faUserAlt,
   faUserCircle
 } from '@fortawesome/free-solid-svg-icons'
+import { useSelector } from 'react-redux'
+import { RootState, useAppDispatch } from 'store'
+import { getCategoryList } from 'api/client/categoryClient.api'
 
 function Header(/* { cart, setMessage } */) {
   const history = useNavigate()
   const [onSearch, setOnSearch] = useState(false)
   const [onMenu, setOnMenu] = useState(false)
   const [onMenu2, setOnMenu2] = useState(false)
-  const [categorylist, setCategorylist] = useState([])
+  const categoryList = useSelector((state: RootState) => state.categoryClient.categoryList)
+  const dispatch = useAppDispatch()
 
   //Xử lý dữ liệu loại sản phẩm
-  // useEffect(() => {
-  //   API({
-  //     method: 'get',
-  //     url: `/category/show-all`
-  //   })
-  //     .then((res) => {
-  //       setCategorylist(res.data.categories)
-  //     })
-  //     .catch((err) =>
-  //       Swal.fire({
-  //         title: 'Error!',
-  //         text: 'Do you want to continue',
-  //         icon: 'error',
-  //         confirmButtonText: 'Close'
-  //       })
-  //     )
-  // }, [])
+  useEffect(() => {
+    const promise = dispatch(getCategoryList())
 
+    return () => {
+      promise.abort()
+    }
+  }, [dispatch])
+  console.log(categoryList)
   //xử lý search
   const handleSearchClose = () => {
     if (onSearch) {
@@ -102,12 +96,12 @@ function Header(/* { cart, setMessage } */) {
     iconMenuMobile2 = <FontAwesomeIcon icon={faAngleDown} />
     menuMobile2 = (
       <ul className='header__menu-list2'>
-        {categorylist.map((item, index) => {
+        {categoryList.map((item, index) => {
           return (
             <li key={index} className='haeder__menu-item2'>
-              {/* <Link to={`/category/${item.ten}`} className='header__menu-link2'>
-                {item.ten}
-              </Link> */}
+              <Link to={`/collection/${item.name}`} className='header__menu-link2'>
+                {item.name}
+              </Link>
             </li>
           )
         })}
@@ -269,7 +263,7 @@ function Header(/* { cart, setMessage } */) {
   return (
     <header className='header'>
       <div className='header header__content grid'>
-        <div className='wide grid'>
+        <div className='pl-8'>
           <ul className='header__content-list'>
             <li className='header__content-item'>
               <div className='header__content--contact'>
@@ -317,7 +311,7 @@ function Header(/* { cart, setMessage } */) {
         </div>
       </div>
       <div className='header header__navbar grid'>
-        <div className='wide grid '>
+        <div className='bg-slate-100'>
           <ul className='header__navbar-list' id='header__navbar-listid'>
             <li className='header__navbar-item'>
               <Link to='/' className='header__navbar-link'>
@@ -331,12 +325,12 @@ function Header(/* { cart, setMessage } */) {
                   <FontAwesomeIcon icon={faAngleDown} />
                 </div>
                 <ul className='header__navbar-list2'>
-                  {categorylist.map((item, index) => {
+                  {categoryList.map((item, index) => {
                     return (
                       <li key={index} className='haeder__navbar-item2'>
-                        {/* <Link to={`/category/${item.ten}`} className='header__navbar-link2'>
-                          {item.ten}
-                        </Link> */}
+                        <Link to={`/collection/${item.id}`} className='header__navbar-link2'>
+                          {item.name}
+                        </Link>
                       </li>
                     )
                   })}

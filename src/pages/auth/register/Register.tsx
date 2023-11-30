@@ -3,7 +3,7 @@ import { useFormik } from 'formik'
 import { RootState, useAppDispatch } from 'store'
 import { toast } from 'react-toastify'
 import styles from '../auth.module.scss'
-import { register } from '../../../api/auth.api'
+import { register } from '../../../api/admin/auth.api'
 import { signUpValidationSchema } from 'validator/auth.valid'
 
 function Register() {

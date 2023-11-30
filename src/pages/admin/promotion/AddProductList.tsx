@@ -6,7 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { RootState, useAppDispatch } from 'store'
 import Checkbox, { CheckboxChangeEvent } from 'antd/es/checkbox'
 import CurrencyFormatter from 'component/currencyFormatter'
-import { addProductInPromotion, getListAddProduct } from 'api/promotion.api'
+import { addProductInPromotion, getListAddProduct } from 'api/admin/promotion.api'
 
 export default function AddProductList() {
   const productList = useSelector((state: RootState) => state.promotion.productListOfPromotion)

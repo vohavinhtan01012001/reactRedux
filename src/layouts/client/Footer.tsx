@@ -9,8 +9,8 @@ function Footer() {
       <div className='grid'>
         <div className='footer__color'>
           <div className='wide grid'>
-            <div className='row '>
-              <div className='col-lg-3 col-md-3 col-sm-6 col-xs-12 pd5'>
+            <div className='grid grid-cols-4 gap-4 px-4'>
+              <div className=''>
                 <div className='foorter__content'>
                   <h2 className='foorter__content-title'>THÔNG TIN LIÊN HỆ:</h2>
                   <div className='foorter__content-documents'>
@@ -24,7 +24,7 @@ function Footer() {
                   </div>
                 </div>
               </div>
-              <div className='col-lg-3 col-md-3 col-sm-6 col-xs-12 pd5'>
+              <div className=''>
                 <div className='foorter__content'>
                   <h2 className='foorter__content-title'>CHÍNH SÁCH HỖ TRỢ:</h2>
                   <ul className='foorter__content-list'>
@@ -56,7 +56,7 @@ function Footer() {
                   </ul>
                 </div>
               </div>
-              <div className='col-lg-3 col-md-3 col-sm-6 col-xs-12 pd5'>
+              <div className=''>
                 <div className='foorter__content'>
                   <h2 className='foorter__content-title'>THÔNG TIN LIÊN KẾT:</h2>
                   <div className='foorter__content-documents'>
@@ -75,7 +75,7 @@ function Footer() {
                   </div>
                 </div>
               </div>
-              <div className='col-lg-3 col-md-3 col-sm-6 col-xs-12 pd5'>
+              <div className=''>
                 <div className='foorter__content'>
                   <h2 className='foorter__content-title'>
                     THEO DÕI FANPAGE CHÚNG TÔI ĐỂ CẬP NHẬT XU HƯỚNG THỜI TRANG HOT NHẤT:

@@ -8,6 +8,7 @@ import Category from 'pages/admin/category/Category'
 import AddProductList from 'pages/admin/promotion/AddProductList'
 import ShowListProduct from 'pages/admin/promotion/ShowListProduct'
 import Home from 'pages/client/home/Home'
+import Collection from 'pages/client/collection/Collection'
 
 const authRouters = [
   {
@@ -20,6 +21,10 @@ const publicRoutes = [
   {
     path: '/',
     component: Home
+  },
+  {
+    path: '/collection/:id',
+    component: Collection
   }
 ]
 

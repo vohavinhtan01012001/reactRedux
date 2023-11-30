@@ -1,13 +1,14 @@
 import { AsyncThunk, PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { addCategory } from 'api/category.api'
+import { addCategory } from 'api/admin/category.api'
 import {
   addProduct,
   deleteProduct,
   getProductList,
+  searchProduct,
   showIdProduct,
   updateProduct,
   updateStatusProduct
-} from 'api/product.api'
+} from 'api/admin/product.api'
 import { toast } from 'react-toastify'
 import { EdittingProduct, Product } from 'types/product.type'
 import { Status } from 'types/status.type'
@@ -107,6 +108,9 @@ const productSlice = createSlice({
             position: toast.POSITION.TOP_RIGHT
           })
         }
+      })
+      .addCase(searchProduct.fulfilled, (state, action) => {
+        state.productList = action.payload.product
       })
       .addMatcher<PendingAction>(
         (action) => action.type.endsWith('/pending') && action.type !== updateStatusProduct.pending.type,

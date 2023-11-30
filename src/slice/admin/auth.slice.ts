@@ -2,7 +2,7 @@ import { AsyncThunk, PayloadAction, createAsyncThunk, createSlice } from '@redux
 import { LoginResponse, User, UserLogin } from 'types/auth.type'
 import { ErrorResponse, Status } from 'types/status.type'
 import http from 'utils/http'
-import { login, register, registerAdmin } from '../api/auth.api'
+import { checkAdmin, login, register, registerAdmin } from '../../api/admin/auth.api'
 import { AxiosError } from 'axios'
 import { toast } from 'react-toastify'
 import Cookies from 'js-cookie'
@@ -19,6 +19,7 @@ const expirationString = '2023-10-26T03:58:06Z'
 interface UserState {
   userList: User[]
   useLogin: UserLogin
+  checkAdmin: boolean
   loginResponse: LoginResponse
   loading: boolean
   currentRequestId: undefined | string
@@ -38,6 +39,7 @@ const formattedExpiration = `${year}-${month}-${day} ${hours}:${minutes}:${secon
 
 const initialState: UserState = {
   userList: [],
+  checkAdmin: false,
   useLogin: {
     email: '',
     password: ''
@@ -114,6 +116,28 @@ const userSlice = createSlice({
           })
         }
       })
+      .addCase(checkAdmin.fulfilled, (state, action: any) => {
+        state.checkAdmin = true
+      })
+      .addCase(checkAdmin.rejected, (state, action: any) => {
+        state.checkAdmin = false
+      })
+      .addMatcher<PendingAction>(
+        (action) => action.type.endsWith('/pending'),
+        (state, action) => {
+          state.loading = true
+          state.currentRequestId = action.meta.requestId
+        }
+      )
+      .addMatcher<RejectedAction | FulfilledAction>(
+        (action) => action.type.endsWith('/rejected') || action.type.endsWith('/fulfilled'),
+        (state, action) => {
+          if (state.loading && state.currentRequestId === action.meta.requestId) {
+            state.loading = false
+            state.currentRequestId = undefined
+          }
+        }
+      )
   }
 })
 

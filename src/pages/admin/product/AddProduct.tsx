@@ -5,11 +5,11 @@ import ImageUploadField from 'component/imageUploadField/ImageUploadField'
 import { createProductSchema } from 'validator/product.valid'
 import ButtonCusTom from 'component/button'
 import Swal from 'sweetalert2'
-import { addProduct } from 'api/product.api'
+import { addProduct } from 'api/admin/product.api'
 import { RootState, useAppDispatch } from 'store'
 import { CreateProduct } from 'types/product.type'
 import { useSelector } from 'react-redux'
-import { getCategoryList } from 'api/category.api'
+import { getCategoryList } from 'api/admin/category.api'
 import Loading from 'component/loading/Loading'
 
 const AddProduct: React.FC = () => {

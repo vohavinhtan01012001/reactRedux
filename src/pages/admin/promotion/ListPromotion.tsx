@@ -1,5 +1,5 @@
 import { CloseSquareFilled, ContainerOutlined, PlusCircleOutlined } from '@ant-design/icons'
-import { deletePromotion, getPromotionList, updateStatusPromotion } from 'api/promotion.api'
+import { deletePromotion, getPromotionList, searchPromotion, updateStatusPromotion } from 'api/admin/promotion.api'
 import DateFormatter from 'component/dateFormatter/DateFormatter'
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -7,12 +7,13 @@ import { RootState, useAppDispatch } from 'store'
 import { Promotion, UpdateStatusPromotion } from 'types/promotion.type'
 import { Select } from 'antd'
 import { faHand } from '@fortawesome/free-solid-svg-icons'
-import { showEditPromotion } from 'slice/promotion.slice'
+import { showEditPromotion } from 'slice/admin/promotion.slice'
 import SelectStatus from '../../../component/selectStatus/SelectStatus'
 import Swal from 'sweetalert2'
 import { useNavigate } from 'react-router-dom'
 import AddPromotion from './AddPromotion'
 import EditPromotion from './EditPromotion'
+import SearchAdmin from 'component/search/SearchAdmin'
 
 export default function ListPromotion() {
   const promotionList = useSelector((state: RootState) => state.promotion.promotionList)
@@ -59,9 +60,14 @@ export default function ListPromotion() {
       }
     })
   }
+  const onSearch: any = (value: string) => dispatch(searchPromotion(value))
+
   return (
     <>
       <AddPromotion />
+      <div className='float-right'>
+        <SearchAdmin onSearch={onSearch} placeholder={'search title promotion...'} />
+      </div>
       <div className='relative overflow-x-auto shadow-md sm:rounded-lg'>
         <div className='mb-5'></div>
         <table className='w-full text-left text-sm text-gray-500 dark:text-gray-400'>

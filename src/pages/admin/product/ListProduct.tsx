@@ -1,15 +1,17 @@
 import { CloseSquareFilled, EditFilled, PlusCircleOutlined } from '@ant-design/icons'
 import { Select } from 'antd'
-import { deleteProduct, getProductList, updateStatusProduct } from 'api/product.api'
+import { deleteProduct, getProductList, searchProduct, updateStatusProduct } from 'api/admin/product.api'
 import ButtonCusTom from 'component/button'
 import CurrencyFormatter from 'component/currencyFormatter'
 import Skeleton from 'component/skeleton'
-import { Fragment, useEffect } from 'react'
+import { ChangeEvent, Fragment, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { RootState, useAppDispatch } from 'store'
 import Swal from 'sweetalert2'
 import SelectStatus from 'component/selectStatus/SelectStatus'
+import SearchAdmin from 'component/search/SearchAdmin'
+import { SearchProps } from 'antd/es/input'
 
 export default function ListProduct() {
   const productList = useSelector((state: RootState) => state.product.productList)
@@ -42,9 +44,14 @@ export default function ListProduct() {
     dispatch(updateStatusProduct({ status: value, productId: itemId }))
   }
   console.log(productList)
+  const onSearch: any = (value: string) => dispatch(searchProduct(value))
   return (
     <>
       <ButtonCusTom onClick={() => history('/admin/add-product')} label='Create' length='long' type='button' />
+      <div className='float-right'>
+        <SearchAdmin onSearch={onSearch} placeholder={'search name product...'} />
+      </div>
+
       <div className='relative overflow-x-auto shadow-md sm:rounded-lg'>
         <table className='w-full text-left text-sm text-gray-500 dark:text-gray-400'>
           <thead className='bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400'>

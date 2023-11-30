@@ -3,7 +3,7 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useAppDispatch } from 'store'
 import styles from '../auth.module.scss' // Import CSS
-import { login } from '../../../api/auth.api'
+import { login } from '../../../api/admin/auth.api'
 import { useNavigate } from 'react-router-dom'
 import { signInValidationSchema } from 'validator/auth.valid'
 

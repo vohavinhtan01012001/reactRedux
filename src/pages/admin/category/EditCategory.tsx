@@ -9,7 +9,7 @@ import TextArea from 'antd/es/input/TextArea'
 import { EditFilled } from '@ant-design/icons'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup' // Import Yup
-import { updateCategory } from 'api/category.api'
+import { updateCategory } from 'api/admin/category.api'
 import { updateCategorySchema } from 'validator/category.valid'
 
 const EditCategory: React.FC = () => {

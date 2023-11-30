@@ -1,7 +1,6 @@
 import CarouselClient from 'component/carousel/Carousel'
-import React from 'react'
-import Slider1 from '../../../assets/frontend/img/slide/1.jpg'
-import Slider2 from '../../../assets/frontend/img/slide/2.jpg'
+import React, { useEffect } from 'react'
+
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -12,17 +11,32 @@ import {
   faSync,
   faTruckMoving
 } from '@fortawesome/free-solid-svg-icons'
+import { useSelector } from 'react-redux'
+import { RootState, useAppDispatch } from 'store'
+import { getProductListPageHome } from 'api/client/productClient.api'
+import ProductItem from 'component/productItem/ProductItem'
+import Tshirt from '../../../assets/frontend/img/category/t-shirt.png'
+import Shirt from '../../../assets/frontend/img/category/shirt.png'
+import Hoodie from '../../../assets/frontend/img/category/hoodie.png'
+import Sweater from '../../../assets/frontend/img/category/sweater.png'
+import styles from './home.module.scss'
+
 
 export default function Home() {
-  const data: any = {
-    Slider1,
-    Slider2
-  }
-  console.log(data)
+  const productList = useSelector((state: RootState) => state.productClient.productList)
+  console.log(productList)
+  const dispatch = useAppDispatch()
+  useEffect(() => {
+    const promise = dispatch(getProductListPageHome())
+
+    return () => {
+      promise.abort()
+    }
+  }, [dispatch])
   return (
     <React.Fragment>
-      <div className='container'>
-        <div className='slide'>
+      <div className=''>
+        <div className='mx-auto'>
           {/* <Carousel>
             <Carousel.Item interval={2000}>
               <img className='d-block w-100' src={Slider1} alt='First slide' />
@@ -31,18 +45,18 @@ export default function Home() {
               <img className='d-block w-100' src={Slider2} alt='Second slide' />
             </Carousel.Item>
           </Carousel> */}
-          <CarouselClient data={data} />
+          <CarouselClient />
         </div>
         <div className='documents'>
-          <div className='wide grid'>
-            <div className='row'>
-              <div className='col-md-3 col-sm-3 col-xs-12 pd-r-5 pd5 text-center'>
+          <div className='px-2'>
+            <div className='grid grid-cols-4 gap-4'>
+              <div className=''>
                 <div className='documents__content'>
                   <div className='documents__content-icon'>
                     <FontAwesomeIcon icon={faTruckMoving} />
                   </div>
                   <div className='documents__content-document'>
-                    <h2 className='documents__content-title'>GIAO HÀNG TOÀN QUỐC</h2>
+                    <h2 className={styles['home-h2']}>GIAO HÀNG TOÀN QUỐC</h2>
                     <p className='documents__content-text'>
                       Vì tình hình dịch covid còn nhạy cảm nên thời gian giao hàng có thể lâu hơn dự kiến, mong quý
                       khách hàng cảm thông và cố gắng đợi hàng giúp shop.
@@ -50,7 +64,7 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              <div className='col-md-3 col-sm-3 col-xs-12 pd-r-5 pd5 text-center'>
+              <div className=''>
                 <div className='documents__content'>
                   <div className='documents__content-icon'>
                     <FontAwesomeIcon icon={faSync} />
@@ -64,7 +78,7 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              <div className='col-md-3 col-sm-3 col-xs-12 pd-r-5 pd5 text-center'>
+              <div className=''>
                 <div className='documents__content'>
                   <div className='documents__content-icon'>
                     <FontAwesomeIcon icon={faHandHoldingUsd} />
@@ -79,7 +93,7 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              <div className='col-md-3 col-sm-3 col-xs-12 pd-r-5 pd5 text-center'>
+              <div className=''>
                 <div className='documents__content'>
                   <div className='documents__content-icon'>
                     <FontAwesomeIcon icon={faPhoneVolume} />
@@ -103,7 +117,7 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <div className='wide grid'>
+          <div className='px-2'>
             <div className='document__timess'>
               <div className='documents__time'>
                 <div className='documents__time-hh '>23</div>
@@ -124,32 +138,36 @@ export default function Home() {
             </div>
           </div>
         </div>
-        {/* <div id='main-content'>
-          <div className='wide content grid'>
-            <div className='row'>{display_products}</div>
-            <div className='row'>
-              <div className='col l-12 c-12 m-12'>
-                <div className='content__btn'>
-                  <Link to='/category/áo thun'>XEM TẤT CẢ</Link>
-                </div>
+        <div id='main-content'>
+          <div className='px-2'>
+            <div className='grid grid-cols-4 gap-4'>
+              {productList.map((item, index) => {
+                return <ProductItem data={item} index={index} />
+              })}
+            </div>
+          </div>
+          <div className='row'>
+            <div className='col l-12 c-12 m-12'>
+              <div className='content__btn'>
+                <Link to='/category/áo thun'>XEM TẤT CẢ</Link>
               </div>
             </div>
-            <div className='row'>
-              <div className='col l-12 c-12 m-12'>
-                <div className='content__foorter-slogan'>
-                  <div className='content__foorter-left'></div>
-                  <div className='content__foorter-headding'>
-                    <h1 className='content__foorter-title'>THƯƠNG HIỆU</h1>
-                    <p className='content__foorter-text'>Thương hiệu nổi bật của chúng tôi</p>
-                  </div>
-                  <div className='content__footer-right'></div>
+          </div>
+          <div className='row'>
+            <div className='col l-12 c-12 m-12'>
+              <div className='content__foorter-slogan'>
+                <div className='content__foorter-left'></div>
+                <div className='content__foorter-headding'>
+                  <h1 className='content__foorter-title'>THƯƠNG HIỆU</h1>
+                  <p className='content__foorter-text'>Thương hiệu nổi bật của chúng tôi</p>
                 </div>
+                <div className='content__footer-right'></div>
               </div>
             </div>
           </div>
           <div className='wide content grid'>
-            <div className='row'>
-              <div className='col-lg-3 col-md-4 col-sm-4 col-xs-6'>
+            <div className='grid grid-cols-4 gap-4 px-3'>
+              <div className=''>
                 <div className='content__category'>
                   <div className='content__category-item'>
                     <Link to='/category/Áo thun' className='content__category-link'>
@@ -158,7 +176,7 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              <div className='col-lg-3 col-md-4 col-sm-4 col-xs-6'>
+              <div className=''>
                 <div className='content__category'>
                   <div className='content__category-item'>
                     <Link to='/category/Áo sơ mi' className='content__category-link'>
@@ -167,7 +185,7 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              <div className='col-lg-3 col-md-4 col-sm-4 col-xs-6'>
+              <div className=''>
                 <div className='content__category'>
                   <div className='content__category-item'>
                     <Link to='/category/Áo khoác' className='content__category-link'>
@@ -176,7 +194,7 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              <div className='col-lg-3 col-md-4 col-sm-4 col-xs-6'>
+              <div className=''>
                 <div className='content__category'>
                   <div className='content__category-item'>
                     <Link to='/category/Quần đùi' className='content__category-link'>
@@ -186,28 +204,24 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <div className="row">
-                  <div className="col l-12 m-12 c-12">
-                      <div className="content__foorter-slogan">
-                          <div className="content__foorter-left"></div>
-                          <div className="content__foorter-headding">
-                              <h1 className="content__foorter-title">
-                                  BEST SELLER
-                              </h1>
-                              <p className="content__foorter-text">
-                                  PRODUCTS ARE SOLD OUT VERY QUICKLY
-                              </p>
-                          </div>
-                          <div className="content__footer-right"></div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-        </div> */}
-        <div className='content__foorter'>
-          <div className='wide grid'>
             <div className='row'>
-              <div className='col c-12 m-4'>
+              <div className='col l-12 c-12 m-12'>
+                <div className='content__foorter-slogan'>
+                  <div className='content__foorter-left'></div>
+                  <div className='content__foorter-headding'>
+                    <h1 className='content__foorter-title'>BEST SELLER</h1>
+                    <p className='content__foorter-text'>PRODUCTS ARE SOLD OUT VERY QUICKLY</p>
+                  </div>
+                  <div className='content__footer-right'></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className='content__foorter'>
+          <div className='px-2'>
+            <div className='grid grid-cols-5 gap-5 px-2'>
+              <div className=''>
                 <div className='content__logo-imgs'>
                   <Link to='' className='content__logo-link'>
                     <img
@@ -217,7 +231,7 @@ export default function Home() {
                   </Link>
                 </div>
               </div>
-              <div className='col c-12 m-4'>
+              <div className=''>
                 <div className='content__logo-imgs'>
                   <Link to='' className='content__logo-link'>
                     <img
@@ -227,7 +241,7 @@ export default function Home() {
                   </Link>
                 </div>
               </div>
-              <div className='col c-12 m-4'>
+              <div className=''>
                 <div className='content__logo-imgs'>
                   <Link to='' className='content__logo-link'>
                     <img

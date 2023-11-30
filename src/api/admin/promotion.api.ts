@@ -127,3 +127,17 @@ export const deleteProductInPromotion = createAsyncThunk(
     }
   }
 )
+
+export const searchPromotion = createAsyncThunk('promotion/searchPromotion', async (title: string, thunkAPI) => {
+  try {
+    const response = await http<{ promotion: Promotion[] }>({
+      url: `promotion/search`,
+      method: 'PATCH',
+      data: { title },
+      signal: thunkAPI.signal
+    })
+    return response.data
+  } catch (error: any) {
+    return thunkAPI.rejectWithValue(error.response.data)
+  }
+})

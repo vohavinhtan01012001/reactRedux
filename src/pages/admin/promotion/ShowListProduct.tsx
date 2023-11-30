@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { RootState, useAppDispatch } from 'store'
 import CurrencyFormatter from 'component/currencyFormatter'
-import { deleteProductInPromotion, getListShowListProduct } from 'api/promotion.api'
+import { deleteProductInPromotion, getListShowListProduct } from 'api/admin/promotion.api'
 import { CloseSquareFilled } from '@ant-design/icons'
 import Swal from 'sweetalert2'
 

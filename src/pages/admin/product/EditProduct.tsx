@@ -7,9 +7,9 @@ import ButtonCusTom from 'component/button'
 import { RootState, useAppDispatch } from 'store'
 import { Product } from 'types/product.type'
 import { useSelector } from 'react-redux'
-import { getCategoryList } from 'api/category.api'
+import { getCategoryList } from 'api/admin/category.api'
 import { useNavigate, useParams } from 'react-router-dom'
-import { showIdProduct, updateProduct } from 'api/product.api'
+import { showIdProduct, updateProduct } from 'api/admin/product.api'
 import Loading from 'component/loading/Loading'
 
 const EditProduct: React.FC = () => {

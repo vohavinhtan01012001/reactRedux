@@ -35,3 +35,15 @@ export const registerAdmin = createAsyncThunk('auth/registerAdmin', async ({ bod
     return thunkAPI.rejectWithValue(error.response.data)
   }
 })
+
+export const checkAdmin = createAsyncThunk('auth/checkAdmin', async (_, thunkAPI) => {
+  try {
+    const response = await http.get<Status>('authorization/check-admin', {
+      signal: thunkAPI.signal
+    })
+    console.log(response.data)
+    return response.data
+  } catch (error: any) {
+    return thunkAPI.rejectWithValue(error.response.data)
+  }
+})

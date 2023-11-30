@@ -1,6 +1,6 @@
 import { AsyncThunk, PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { Category } from 'types/category.type'
-import { addCategory, deleteCategory, getCategoryList, updateCategory } from '../api/category.api'
+import { addCategory, deleteCategory, getCategoryList, updateCategory } from '../../api/admin/category.api'
 import { toast } from 'react-toastify'
 import { Status } from 'types/status.type'
 
