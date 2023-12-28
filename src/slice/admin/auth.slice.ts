@@ -92,7 +92,7 @@ const userSlice = createSlice({
       .addCase(registerAdmin.fulfilled, (state, action) => {
         state.statusUser = action.payload
       })
-      .addCase(login.rejected, (state, action: any) => {
+      /* .addCase(login.rejected, (state, action: any) => {
         console.log(action.payload)
         if (action.payload.error) {
           toast.error(action.payload.error, {
@@ -103,7 +103,7 @@ const userSlice = createSlice({
             position: toast.POSITION.TOP_RIGHT
           })
         }
-      })
+      }) */
       .addCase(register.rejected, (state, action: any) => {
         console.log(action.payload)
         if (action.payload.error) {
@@ -122,7 +122,7 @@ const userSlice = createSlice({
       .addCase(checkAdmin.rejected, (state, action: any) => {
         state.checkAdmin = false
       })
-      .addMatcher<PendingAction>(
+     /*  .addMatcher<PendingAction>(
         (action) => action.type.endsWith('/pending'),
         (state, action) => {
           state.loading = true
@@ -137,7 +137,7 @@ const userSlice = createSlice({
             state.currentRequestId = undefined
           }
         }
-      )
+      ) */
   }
 })
 

@@ -19,6 +19,7 @@ import {
 import { useSelector } from 'react-redux'
 import { RootState, useAppDispatch } from 'store'
 import { getCategoryList } from 'api/client/categoryClient.api'
+import Cookies from 'js-cookie'
 
 function Header(/* { cart, setMessage } */) {
   const history = useNavigate()
@@ -114,7 +115,7 @@ function Header(/* { cart, setMessage } */) {
   //Xử lý Auth Account PC vaf Tablet
   var nameMobile = localStorage.getItem('auth_name')
   let authAccount: any
-  if (!localStorage.getItem('auth_token')) {
+  if (!Cookies.get('accessToken')) {
     authAccount = (
       <Link to='/login' className='header__content-account'>
         <FontAwesomeIcon icon={faUserAlt} className='text-lg' />
@@ -263,7 +264,7 @@ function Header(/* { cart, setMessage } */) {
   return (
     <header className='header'>
       <div className='header header__content grid'>
-        <div className='pl-8'>
+        <div className='px-4'>
           <ul className='header__content-list'>
             <li className='header__content-item'>
               <div className='header__content--contact'>
@@ -287,14 +288,6 @@ function Header(/* { cart, setMessage } */) {
             <li className='header__content-item'>
               <ul className='header__content-list2'>
                 <li className='header__content-item2'>
-                  {inputSearch}
-                  <Link to='/search' className='header__content-label' onClick={handleSearch}>
-                    <div className='header__content-search'>
-                      <FontAwesomeIcon icon={faSearch} />
-                    </div>
-                  </Link>
-                </li>
-                <li className='header__content-item2'>
                   <div className='header__content-search'>{authAccount}</div>
                 </li>
                 <li className='header__content-item2'>
@@ -304,6 +297,14 @@ function Header(/* { cart, setMessage } */) {
                       {/* <p>{cart}</p> */}
                     </Link>
                   </div>
+                </li>
+                <li className='header__content-item2'>
+                  {/*  {inputSearch}
+                  <Link to='/search' className='header__content-label' onClick={handleSearch}>
+                    <div className='header__content-search'>
+                      <FontAwesomeIcon icon={faSearch} />
+                    </div>
+                  </Link> */}
                 </li>
               </ul>
             </li>

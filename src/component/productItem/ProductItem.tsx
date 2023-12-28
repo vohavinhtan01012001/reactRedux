@@ -2,7 +2,7 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import '../../assets/frontend/css/grid.css'
 import CurrencyFormatter from 'component/currencyFormatter'
-
+import Img from '../../assets/frontend/img/detail/lss.png'
 interface PropsProduct {
   data: any
   index: number
@@ -18,10 +18,7 @@ export default function ProductItem({ data, index }: PropsProduct) {
       <div className='content__product' style={{ height: '95%' }}>
         <div onClick={handleClick} className='content__product-item'>
           <img src={`${data.image}`} className='content__product-img'></img>
-          {/*  data.soLuong == 0 ?
-                   <img src={Im}
-                       className="content__product-img2">
-                   </img> : "" */}
+          {data.quantity === 0 ? <img src={Img} className='content__product-img2'></img> : ''}
           <p className='content__product-text'>{data.ten}</p>
           {/* <p className='content__product-text' style={{ fontSize: '13px', margin: '0 10px', color: '#ab7676' }}>
             Số lượt thích:
@@ -58,10 +55,6 @@ export default function ProductItem({ data, index }: PropsProduct) {
               )}
             </div>
           )}
-
-          {/*  {bestSellerProducts.map((product) => {
-            return product.SanPhamId === data.id ? <div className='content__product-new'>Chạy</div> : ''
-          })} */}
           {data.Promotion ? <div className='content__product-sale'>{'-' + data.Promotion.discount + '%'}</div> : ''}
         </div>
       </div>

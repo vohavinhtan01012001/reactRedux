@@ -21,7 +21,6 @@ import Hoodie from '../../../assets/frontend/img/category/hoodie.png'
 import Sweater from '../../../assets/frontend/img/category/sweater.png'
 import styles from './home.module.scss'
 
-
 export default function Home() {
   const productList = useSelector((state: RootState) => state.productClient.productList)
   console.log(productList)
@@ -70,7 +69,7 @@ export default function Home() {
                     <FontAwesomeIcon icon={faSync} />
                   </div>
                   <div className='documents__content-document'>
-                    <h2 className='documents__content-title'>CHÍNH SÁCH ĐỔI TRẢ HÀNG</h2>
+                    <h2 className={styles['home-h2']}>CHÍNH SÁCH ĐỔI TRẢ HÀNG</h2>
                     <p className='documents__content-text'>
                       Sản phẩm được phép đổi hàng trong vòng 36h nếu phát sinh lỗi từ nhà sản xuất (Yêu cầu: hình ảnh
                       phần bị lỗi rõ nét, chi tiết và đầy đủ).
@@ -84,7 +83,7 @@ export default function Home() {
                     <FontAwesomeIcon icon={faHandHoldingUsd} />
                   </div>
                   <div className='documents__content-document'>
-                    <h2 className='documents__content-title'>GIAO HÀNG NHẬN TIỀN VÀ KIỂM KÊ ĐƠN HÀNG</h2>
+                    <h2 className={styles['home-h2']}>GIAO HÀNG NHẬN TIỀN VÀ KIỂM KÊ ĐƠN HÀNG</h2>
                     <p className='documents__content-text'>
                       Được phép kiểm hàng trước khi thanh toán. Lưu ý: Trường hợp Quý khách đã nhận hàng về nhà, vui
                       lòng quay video unbox sản phẩm trong tình trạng nguyên vẹn để có thể chứng minh shop giao nhầm
@@ -99,7 +98,7 @@ export default function Home() {
                     <FontAwesomeIcon icon={faPhoneVolume} />
                   </div>
                   <div className='documents__content-document'>
-                    <h2 className='documents__content-title'>ĐẶT HÀNG ONLINE VÀ KIỂM TRA ĐƠN HÀNG VUI LÒNG LIÊN HỆ</h2>
+                    <h2 className={styles['home-h2']}>ĐẶT HÀNG ONLINE VÀ KIỂM TRA ĐƠN HÀNG VUI LÒNG LIÊN HỆ</h2>
                     <p className='documents__content-text'>Hotline: 0378189209.</p>
                   </div>
                 </div>
@@ -140,7 +139,7 @@ export default function Home() {
         </div>
         <div id='main-content'>
           <div className='px-2'>
-            <div className='grid grid-cols-4 gap-4'>
+            <div className='grid grid-cols-5 gap-5'>
               {productList.map((item, index) => {
                 return <ProductItem data={item} index={index} />
               })}

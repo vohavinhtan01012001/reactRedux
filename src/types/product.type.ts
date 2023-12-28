@@ -1,11 +1,12 @@
 import { Category } from './category.type'
+import { Size } from './size.type'
 export interface Product {
   id: number
   name: string
   description: string
-  price: string
-  priceReduced: string
-  quantity: string
+  price: number
+  priceReduced: number
+  quantity: number
   image: string
   image2: string
   image3: string
@@ -13,6 +14,10 @@ export interface Product {
   gender: number
   status: number
   categoryId: number
+  Size: Size
+  promotionId: number
+  sizeId: number
+  productGroupId: number
   Category: Category
 }
 

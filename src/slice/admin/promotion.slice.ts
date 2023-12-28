@@ -144,13 +144,17 @@ const promotionSlice = createSlice({
       )
       .addMatcher<RejectedAction>(
         (action) => action.type.endsWith('/rejected'),
-        (state, action) => {
-          const errorPayload = action.payload as { error?: string; message?: string }
-          const errorMessage = errorPayload.error ?? errorPayload.message ?? 'Unknown error'
-
-          toast.error(errorMessage, {
-            position: toast.POSITION.TOP_RIGHT
-          })
+        (state, action: any) => {
+          if (action.payload.message) {
+            toast.error(action.payload.message, {
+              position: toast.POSITION.TOP_RIGHT
+            })
+          }
+          if (action.payload.errorMsg) {
+            toast.error(action.payload.errorMsg, {
+              position: toast.POSITION.TOP_RIGHT
+            })
+          }
 
           if (state.loading && state.currentRequestId === action.meta.requestId) {
             state.loading = false

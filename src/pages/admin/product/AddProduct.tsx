@@ -11,10 +11,13 @@ import { CreateProduct } from 'types/product.type'
 import { useSelector } from 'react-redux'
 import { getCategoryList } from 'api/admin/category.api'
 import Loading from 'component/loading/Loading'
+import { useNavigate } from 'react-router-dom'
+import { getSizeList } from 'api/admin/size.api'
 
 const AddProduct: React.FC = () => {
   const categoryList = useSelector((state: RootState) => state.category.categoryList)
   const loading = useSelector((state: RootState) => state.product.loading)
+  const sizeList = useSelector((state: RootState) => state.size.sizeList)
 
   const initialValues: any = {
     name: '',
@@ -31,8 +34,16 @@ const AddProduct: React.FC = () => {
   }
   const [images, setImages] = useState<any>([])
   const dispatch = useAppDispatch()
+  const history = useNavigate()
   useEffect(() => {
     const promise = dispatch(getCategoryList())
+
+    return () => {
+      promise.abort()
+    }
+  }, [dispatch])
+  useEffect(() => {
+    const promise = dispatch(getSizeList())
 
     return () => {
       promise.abort()
@@ -42,6 +53,7 @@ const AddProduct: React.FC = () => {
     <>
       {loading && <Loading />}
       <div className='mx-auto my-8 w-5/6 rounded-2xl bg-white p-10 shadow-lg'>
+        <ButtonCusTom label='Size' length='short' onClick={() => history('/admin/size')} type='button' />
         <Formik
           initialValues={initialValues}
           validationSchema={createProductSchema}
@@ -58,6 +70,12 @@ const AddProduct: React.FC = () => {
               values.categoryId = categoryList[0].id
             } else {
               values.categoryId = parseInt(values.categoryId)
+            }
+            console.log(values.sizeId)
+            if (values.sizeId == undefined) {
+              values.sizeId = sizeList[0].id
+            } else {
+              values.sizeId = parseInt(values.sizeId)
             }
             if (values.image1 == null || values.image2 == null || values.image3 == null || values.image4 == null) {
               Swal.fire({
@@ -111,6 +129,17 @@ const AddProduct: React.FC = () => {
                   </Form.Item>
                 </div>
                 <div className='pl-16'>
+                  <Form.Item name='sizeId' label='Size' required>
+                    <Field name='sizeId' as='select'>
+                      {({ field }: any) => (
+                        <select {...field}>
+                          {sizeList.map((item, index) => {
+                            return <option value={item.id}>{item.name}</option>
+                          })}
+                        </select>
+                      )}
+                    </Field>
+                  </Form.Item>
                   <Form.Item name='gender' label='Gender' required>
                     <Field name='gender' as='select'>
                       {({ field }: any) => (

@@ -46,7 +46,14 @@ const initMenu = [
     path: '/admin/promotion',
     icon: faWindows
   },
-
+  {
+    label: 'Order'
+  },
+  {
+    label: 'Order',
+    path: '/admin/order',
+    icon: faWindows
+  },
   {
     label: 'Otentikasi'
   },

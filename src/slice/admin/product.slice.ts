@@ -4,6 +4,7 @@ import {
   addProduct,
   deleteProduct,
   getProductList,
+  getProductListByProductGroupId,
   searchProduct,
   showIdProduct,
   updateProduct,
@@ -21,6 +22,7 @@ type FulfilledAction = ReturnType<GenericAsyncThunk['fulfilled']>
 interface ProductState {
   productList: Product[]
   status: Status | null
+  statusProduct: number | null
   edittingProduct: EdittingProduct | null
   loading: boolean
   currentRequestId: undefined | string
@@ -29,6 +31,7 @@ interface ProductState {
 const initialState: ProductState = {
   productList: [],
   status: null,
+  statusProduct: null,
   edittingProduct: null,
   loading: false,
   currentRequestId: undefined
@@ -42,7 +45,14 @@ const productSlice = createSlice({
       .addCase(getProductList.fulfilled, (state, action) => {
         state.productList = action.payload.product
       })
+      .addCase(getProductListByProductGroupId.fulfilled, (state, action) => {
+        state.productList = action.payload.product
+      })
       .addCase(addProduct.fulfilled, (state, action) => {
+        if (state.loading && state.currentRequestId === action.meta.requestId) {
+          state.loading = false
+          state.currentRequestId = undefined
+        }
         state.productList.push(action.payload.product)
         state.status = action.payload.status
         toast.success(action.payload.status.message, {
@@ -90,15 +100,24 @@ const productSlice = createSlice({
         })
       })
       .addCase(updateStatusProduct.fulfilled, (state, action) => {
-        /* const foundIndex = state.productList.findIndex((c) => c.id === action.meta.arg.productId)
-        if (foundIndex !== -1) {
-          state.productList[foundIndex].status = action.meta.arg.status
-        } */
+        if (state.loading && state.currentRequestId === action.meta.requestId) {
+          state.loading = false
+          state.currentRequestId = undefined
+        }
+        state.statusProduct = parseInt(action.meta.arg.status)
         toast.success(action.payload.status.message, {
           position: toast.POSITION.TOP_RIGHT
         })
       })
-      .addCase(updateStatusProduct.rejected, (state, action: any) => {
+      .addCase(addProduct.pending, (state, action) => {
+        state.loading = true
+        state.currentRequestId = action.meta.requestId
+      })
+      .addCase(updateStatusProduct.pending, (state, action) => {
+        state.loading = true
+        state.currentRequestId = action.meta.requestId
+      })
+    /*  .addCase(updateStatusProduct.rejected, (state, action: any) => {
         if (action.payload.error) {
           toast.error(action.payload.error, {
             position: toast.POSITION.TOP_RIGHT
@@ -111,23 +130,7 @@ const productSlice = createSlice({
       })
       .addCase(searchProduct.fulfilled, (state, action) => {
         state.productList = action.payload.product
-      })
-      .addMatcher<PendingAction>(
-        (action) => action.type.endsWith('/pending') && action.type !== updateStatusProduct.pending.type,
-        (state, action) => {
-          state.loading = true
-          state.currentRequestId = action.meta.requestId
-        }
-      )
-      .addMatcher<RejectedAction | FulfilledAction>(
-        (action) => action.type.endsWith('/rejected') || action.type.endsWith('/fulfilled'),
-        (state, action) => {
-          if (state.loading && state.currentRequestId === action.meta.requestId) {
-            state.loading = false
-            state.currentRequestId = undefined
-          }
-        }
-      )
+      }) */
   }
 })
 

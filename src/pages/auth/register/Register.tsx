@@ -2,10 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { useFormik } from 'formik'
 import { RootState, useAppDispatch } from 'store'
 import { toast } from 'react-toastify'
-import styles from '../auth.module.scss'
 import { register } from '../../../api/admin/auth.api'
 import { signUpValidationSchema } from 'validator/auth.valid'
-
 function Register() {
   const dispatch = useAppDispatch()
   const initialValuesSignUp = {
@@ -43,100 +41,66 @@ function Register() {
 
   return (
     <>
-      <form onSubmit={formik.handleSubmit} className={styles['auth-form']}>
-        <h2>Time to feel like home</h2>
-        <div className={`flex justify-between ${styles['auth-form-fields']}`}>
-          <div>
-            <label>
-              <span>Full Name</span>
-              <input
-                type='text'
-                name='fullname'
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.fullname}
-              />
-              {formik.touched.fullname && formik.errors.fullname ? (
-                <div className={styles.error}>{formik.errors.fullname}</div>
-              ) : null}
-            </label>
-            <label>
-              <span>Password</span>
-              <input
-                type='password'
-                name='password'
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.password}
-              />
-              {formik.touched.password && formik.errors.password ? (
-                <div className={styles.error}>{formik.errors.password}</div>
-              ) : null}
-            </label>
-          </div>
+      <form onSubmit={formik.handleSubmit} className='auth-form'>
+        <label>Full Name</label>
+        <input
+          type='text'
+          name='fullname'
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.fullname}
+        />
+        {formik.touched.fullname && formik.errors.fullname ? (
+          <div className='text-sm text-red-600'>{formik.errors.fullname}</div>
+        ) : null}
+        <label>Password</label>
+        <input
+          type='password'
+          name='password'
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.password}
+        />
+        {formik.touched.password && formik.errors.password ? (
+          <div className='text-sm text-red-600'>{formik.errors.password}</div>
+        ) : null}
+        <label>Email </label>
 
-          <div>
-            <label>
-              <span>Email</span>
-              <input
-                type='email'
-                name='email'
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.email}
-              />
-              {formik.touched.email && formik.errors.email ? (
-                <div className={styles.error}>{formik.errors.email}</div>
-              ) : null}
-            </label>
-            <label>
-              <span>Confirm Password</span>
-              <input type='password' name='confirmPassword' onChange={(e) => setConfirmPassword(e.target.value)} />
-            </label>
-          </div>
-        </div>
-        <div className={`flex justify-between ${styles['auth-form-fields']}`}>
-          <div>
-            <label>
-              <span>Phone Number</span>
-              <input
-                type='text'
-                name='phone'
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.phone}
-              />
-            </label>
-            <label>
-              {formik.touched.phone && formik.errors.phone ? (
-                <div className={styles.error}>{formik.errors.phone}</div>
-              ) : null}
-            </label>
-          </div>
-          <div>
-            <label>
-              <span>Address</span>
-              <input
-                type='text'
-                name='address'
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.address}
-              />
-            </label>
-            <label>
-              {formik.touched.address && formik.errors.address ? (
-                <div className={styles.error}>{formik.errors.address}</div>
-              ) : null}
-            </label>
-          </div>
-        </div>
-        <button type='submit' className={styles.submit}>
-          Sign Up
-        </button>
-        <button type='button' className={styles['fb-btn']}>
-          Join with <span>Facebook</span>
-        </button>
+        <input
+          type='email'
+          name='email'
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.email}
+        />
+        {formik.touched.email && formik.errors.email ? (
+          <div className='text-sm text-red-600'>{formik.errors.email}</div>
+        ) : null}
+        <label>Confirm Password</label>
+        <input type='password' name='confirmPassword' onChange={(e) => setConfirmPassword(e.target.value)} />
+        <label>Phone Number</label>
+        <input
+          type='text'
+          name='phone'
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.phone}
+        />
+        {formik.touched.phone && formik.errors.phone ? (
+          <div className='text-sm text-red-600'>{formik.errors.phone}</div>
+        ) : null}
+        <label>Address</label>
+        <input
+          type='text'
+          name='address'
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.address}
+        />
+        {formik.touched.address && formik.errors.address ? (
+          <div className='text-sm text-red-600'>{formik.errors.address}</div>
+        ) : null}
+        <button>Sign Up</button>
       </form>
     </>
   )

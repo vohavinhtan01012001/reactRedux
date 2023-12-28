@@ -19,6 +19,10 @@ const ButtonCusTom = ({ label, onClick, length, type }: buttonProps) => {
         <span className='relative w-40 rounded-md bg-white px-5 py-2.5 transition-all duration-75 ease-in group-hover:bg-opacity-0 dark:bg-gray-900'>
           {label}
         </span>
+      ) : length == 'longs' ? (
+        <span className='relative w-full rounded-md bg-white px-5 py-2.5 transition-all duration-75 ease-in group-hover:bg-opacity-0 dark:bg-gray-900'>
+          {label}
+        </span>
       ) : (
         <span className='relative rounded-md bg-white px-5 py-2.5 transition-all duration-75 ease-in group-hover:bg-opacity-0 dark:bg-gray-900'>
           {label}

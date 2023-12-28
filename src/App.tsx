@@ -12,49 +12,45 @@ import { checkAdmin } from 'api/admin/auth.api'
 import Cookies from 'js-cookie'
 import { useSelector } from 'react-redux'
 function App() {
-  const isAdmin = useSelector((state: RootState) => state.user.checkAdmin)
-  const dispatch = useAppDispatch()
-  useEffect(() => {
-    const promise = dispatch(checkAdmin())
-    return () => {
-      promise.abort()
-    }
-  }, [dispatch])
   return (
     <div className='App'>
       <ToastContainer />
       <Router>
         <Routes>
           {/* auth routes */}
-          {authRouters.map((route) => (
-            <Route key={route.path} path={route.path} element={<route.component />} />
-          ))}
+          {authRouters.map((route) => {
+            return <Route key={route.path} path={route.path} element={<route.component />} />
+          })}
 
           {/* admin routes */}
-          {isAdmin &&
-            privateRoutes.map((route) => (
-              <Route
-                key={'/admin' + route.path}
-                path={'/admin' + route.path}
-                element={
-                  <DefaultLayout>
-                    <route.component />
-                  </DefaultLayout>
-                }
-              />
-            ))}
-          {/* client routes */}
-          {publicRoutes.map((route) => (
+          {privateRoutes.map((route) => (
             <Route
-              key={route.path}
-              path={route.path}
+              key={'/admin' + route.path}
+              path={'/admin' + route.path}
               element={
-                <DefaultLayoutClient>
+                <DefaultLayout>
                   <route.component />
-                </DefaultLayoutClient>
+                </DefaultLayout>
               }
             />
           ))}
+          {/* client routes */}
+          {publicRoutes.map((route) => {
+            if (route.path == '/pay') {
+              return <Route key={route.path} path={route.path} element={<route.component />} />
+            }
+            return (
+              <Route
+                key={route.path}
+                path={route.path}
+                element={
+                  <DefaultLayoutClient>
+                    <route.component />
+                  </DefaultLayoutClient>
+                }
+              />
+            )
+          })}
 
           {/* 404 page */}
           <Route path='*' element={<Page404 />} />

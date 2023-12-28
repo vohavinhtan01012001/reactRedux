@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useFormik } from 'formik'
-import * as Yup from 'yup'
 import { useAppDispatch } from 'store'
-import styles from '../auth.module.scss' // Import CSS
 import { login } from '../../../api/admin/auth.api'
 import { useNavigate } from 'react-router-dom'
 import { signInValidationSchema } from 'validator/auth.valid'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faFacebookF, faGoogle, faLinkedinIn } from '@fortawesome/free-brands-svg-icons'
 
 function Login() {
   const dispatch = useAppDispatch()
@@ -18,57 +18,55 @@ function Login() {
   const formik = useFormik({
     initialValues: initialValuesSignIn,
     validationSchema: signInValidationSchema,
-    onSubmit: async (values) => {
-      try {
-        const action: any = await dispatch(login(values))
+    onSubmit: (values) => {
+      dispatch(login(values)).then((action: any) => {
         if (action.payload?.statusCode === 1) {
-          navigate('/admin/categories')
+          navigate('/admin')
         }
-      } catch (error) {
-        console.error('Trạng thái rejected:', error)
-      }
+      })
     }
   })
 
   return (
-    <div className={`${styles['form']} ${styles['sign-in']}`}>
-      <form onSubmit={formik.handleSubmit}>
-        <h2>Welcome back,</h2>
-        <label>
-          <span>email</span>
-          <input
-            type='email'
-            name='email'
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.email}
-          />
-          {formik.touched.email && formik.errors.email ? (
-            <div className={styles.error}>{formik.errors.email}</div>
-          ) : null}
-        </label>
-        <label>
-          <span>Password</span>
-          <input
-            type='password'
-            name='password'
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.password}
-          />
-          {formik.touched.password && formik.errors.password ? (
-            <div className={styles.error}>{formik.errors.password}</div>
-          ) : null}
-        </label>
-        <p className={styles['forgot-pass']}>Forgot password?</p>
-        <button type='submit' className={styles.submit}>
-          Sign In
-        </button>
-        <button type='button' className={styles['fb-btn']}>
-          Connect with <span>Facebook</span>
-        </button>
-      </form>
-    </div>
+    <form onSubmit={formik.handleSubmit}>
+      <h1 className='text-lg'>Sign in</h1>
+      <div className='social-container'>
+        <a href='#' className='social'>
+          <FontAwesomeIcon icon={faFacebookF} />
+        </a>
+        <a href='#' className='social'>
+          <FontAwesomeIcon icon={faGoogle} />
+        </a>
+        <a href='#' className='social'>
+          <FontAwesomeIcon icon={faLinkedinIn} />
+        </a>
+      </div>
+      <label className='text-base'>email</label>
+      <input
+        className='outline-none'
+        type='email'
+        name='email'
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        value={formik.values.email}
+      />
+      {formik.touched.email && formik.errors.email ? (
+        <div className='text-sm text-red-600'>{formik.errors.email}</div>
+      ) : null}
+      <label className='text-base'>Password</label>
+      <input
+        type='password'
+        name='password'
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        value={formik.values.password}
+      />
+      {formik.touched.password && formik.errors.password ? (
+        <div className='text-sm text-red-600'>{formik.errors.password}</div>
+      ) : null}
+      <a href='#'>Forgot your password?</a>
+      <button>Sign In</button>
+    </form>
   )
 }
 

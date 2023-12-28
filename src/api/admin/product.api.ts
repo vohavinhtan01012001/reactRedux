@@ -3,6 +3,9 @@ import { CreateProduct, Product } from 'types/product.type'
 import { Status } from 'types/status.type'
 import http from 'utils/http'
 import { EdittingProduct } from '../../types/product.type'
+import { Category } from 'types/category.type'
+import { Cart, CartPayment, ShowCart } from 'types/cart.type'
+import { User, UserPayment } from 'types/auth.type'
 
 export const getProductList = createAsyncThunk('product/getProductList', async (_, thunkAPI) => {
   const response = await http.get<{ status: string; product: Product[] }>('product/get-all', {
@@ -77,7 +80,7 @@ export const updateProduct = createAsyncThunk(
 )
 
 export const updateStatusProduct = createAsyncThunk(
-  'product/updateStatusPromotion',
+  'product/updateStatusProduct',
   async ({ status, productId }: { status: any; productId: number }, thunkAPI) => {
     try {
       const response = await http<{ status: Status }>({
@@ -106,3 +109,17 @@ export const searchProduct = createAsyncThunk('product/searchProduct', async (na
     return thunkAPI.rejectWithValue(error.response.data)
   }
 })
+
+export const getProductListByProductGroupId = createAsyncThunk(
+  'product/getProductListByProductGroupId',
+  async (productGroupId: number, thunkAPI) => {
+    const response = await http.get<{ status: Status; product: Product[] }>(
+      `/product/product-group/${productGroupId}`,
+      {
+        signal: thunkAPI.signal
+      }
+    )
+    console.log(response.data)
+    return response.data
+  }
+)

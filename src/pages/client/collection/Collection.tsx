@@ -1,8 +1,11 @@
-import { faChevronRight } from '@fortawesome/free-solid-svg-icons'
+import { faChevronRight, faFilter } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { searchProduct } from 'api/admin/product.api'
 import { getCategoryById } from 'api/client/categoryClient.api'
-import { getListProductOfCategory } from 'api/client/productClient.api'
+import { getListProductOfCategory, showCategoryAndSizeAndMinMaxPrice } from 'api/client/productClient.api'
 import ProductItem from 'component/productItem/ProductItem'
+import SearchAdmin from 'component/search/SearchAdmin'
+import SearchClient from 'component/search/SearchClient'
 import MenuCategory from 'layouts/client/MenuCategory'
 import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
@@ -29,6 +32,7 @@ export default function Collection() {
     console.log(e.target.value)
     dispatch(showProductList(e.target.value))
   }
+  const onSearch: any = (value: string) => dispatch(searchProduct(value))
   return (
     <>
       <div className='app__container' id='ssa'>
@@ -45,6 +49,7 @@ export default function Collection() {
             </div>
           </div>
         </div>
+        <div className='block pb-4 text-end'></div>
         <div className='wide grid'>
           <div className='grid grid-cols-4 gap-4'>
             <MenuCategory />
@@ -60,6 +65,7 @@ export default function Collection() {
                     value={value}
                     setProduct={setProduct}
                   /> */}
+
                   <div className='tshirts__title--option' style={{ marginLeft: '20px' }}>
                     <select onChange={handleOption} id='search' className='tshirts__title--select'>
                       <option>---Sắp xếp---</option>
@@ -78,7 +84,9 @@ export default function Collection() {
                     return <ProductItem data={item} index={index} />
                   })}
                 </div>
-                {productList.length === 0 && <h2 className='mx-auto my-5 text-red-600'>Products is empty</h2>}
+                {productList.length === 0 && (
+                  <h2 className='mx-auto my-5 ml-3 text-xl text-red-600'>Products is empty</h2>
+                )}
               </div>
             </div>
           </div>

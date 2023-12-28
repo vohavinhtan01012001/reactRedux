@@ -6,6 +6,10 @@ import productReducer from 'slice/admin/product.slice'
 import promotionReducer from 'slice/admin/promotion.slice'
 import productClientReducer from 'slice/client/productClient.slice'
 import categoryClientReducer from 'slice/client/categoryClient.slice'
+import sizeReducer from 'slice/admin/size.slice'
+import userClientReducer from 'slice/client/userClient.slice'
+import orderClientReducer from 'slice/client/orderClient.slice'
+import orderReducer from 'slice/admin/order.slice'
 
 export const store = configureStore({
   reducer: {
@@ -14,9 +18,13 @@ export const store = configureStore({
     user: userReducer,
     product: productReducer,
     promotion: promotionReducer,
+    size: sizeReducer,
+    order: orderReducer,
     //client
     productClient: productClientReducer,
-    categoryClient: categoryClientReducer
+    categoryClient: categoryClientReducer,
+    userClient: userClientReducer,
+    orderClient: orderClientReducer
   }
 })
 //Lấy RootState và AppDispatch từ store của chúng ta
