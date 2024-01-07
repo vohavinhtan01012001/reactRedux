@@ -11,7 +11,7 @@ function Login() {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const initialValuesSignIn = {
-    email: '',
+    username: '',
     password: ''
   }
 
@@ -41,17 +41,17 @@ function Login() {
           <FontAwesomeIcon icon={faLinkedinIn} />
         </a>
       </div>
-      <label className='text-base'>email</label>
+      <label className='text-base'>username</label>
       <input
         className='outline-none'
-        type='email'
-        name='email'
+        type='username'
+        name='username'
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
-        value={formik.values.email}
+        value={formik.values.username}
       />
-      {formik.touched.email && formik.errors.email ? (
-        <div className='text-sm text-red-600'>{formik.errors.email}</div>
+      {formik.touched.username && formik.errors.username ? (
+        <div className='text-sm text-red-600'>{formik.errors.username}</div>
       ) : null}
       <label className='text-base'>Password</label>
       <input

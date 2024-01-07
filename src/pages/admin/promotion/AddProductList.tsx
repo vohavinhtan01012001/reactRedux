@@ -201,7 +201,7 @@ export default function AddProductList() {
                           </th>
                           <td className='px-6 py-4'>{item.Category?.name}</td>
                           <td className='px-6 py-4'>{CurrencyFormatter(item.price)}</td>
-                          <td className='px-6 py-4'>{CurrencyFormatter(item.priceReduced)}</td>
+                          <td className='px-6 py-4'>{CurrencyFormatter(item.priceRedu)}</td>
                           <td className='px-6 py-4'>
                             <img src={item.image} alt={item.name} width={50} />
                           </td>
@@ -237,7 +237,7 @@ export default function AddProductList() {
                           </th>
                           <td className='px-6 py-4'>{item.Category?.name}</td>
                           <td className='px-6 py-4'>{CurrencyFormatter(item.price)}</td>
-                          <td className='px-6 py-4'>{CurrencyFormatter(item.priceReduced)}</td>
+                          <td className='px-6 py-4'>{CurrencyFormatter(item.priceRedu)}</td>
                           <td className='px-6 py-4'>
                             <img src={item.image} alt={item.name} width={50} />
                           </td>

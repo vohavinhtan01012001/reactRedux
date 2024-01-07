@@ -1,7 +1,7 @@
 import { Status } from './status.type'
 export interface User {
   id: number
-  fullname: string
+  name: string
   address: string
   phone: string
   email: string
@@ -9,7 +9,7 @@ export interface User {
 }
 
 export interface UserLogin {
-  email: string
+  username: string
   password: string
 }
 export interface LoginResponse extends Status {
@@ -18,15 +18,16 @@ export interface LoginResponse extends Status {
 }
 
 export interface UserRegister {
-  fullname: string
+  name: string
   address: string
+  username: string
   phone: string
   email: string
   password: string
 }
 
 export interface UserPayment {
-  fullname: string
+  name: string
   address: string
   phone: string
   email: string

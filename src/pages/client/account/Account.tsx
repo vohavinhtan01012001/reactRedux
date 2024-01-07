@@ -155,7 +155,7 @@ function Account() {
                 >
                   <span>Họ tên </span>
                   <span>:</span>
-                  <span>{user.fullname}</span>
+                  <span>{user.name}</span>
                 </div>
                 <div
                   className='container__account-name'

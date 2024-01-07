@@ -50,6 +50,7 @@ const sizeSlice = createSlice({
         state.sizeList = action.payload.sizes
       })
       .addCase(addSize.fulfilled, (state, action) => {
+        console.log(action.payload)
         state.sizeList.push(action.payload.size)
         state.status = action.payload.status
         toast.success(action.payload.status.message, {

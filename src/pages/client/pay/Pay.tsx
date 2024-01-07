@@ -30,7 +30,7 @@ function Pay() {
   }, [dispatch])
 
   const initialValues = {
-    fullname: '',
+    name: '',
     address: '',
     phone: '',
     note: '',
@@ -67,7 +67,7 @@ function Pay() {
       formik.setValues({
         ...formik.values,
         address: action.payload.user.address || '',
-        fullname: action.payload.user.fullname || '',
+        name: action.payload.user.name || '',
         phone: action.payload.user.phone || '',
         email: action.payload.user.email || ''
       })
@@ -107,13 +107,13 @@ function Pay() {
                     <span>Họ và tên</span>
                     <Input
                       type='text'
-                      name='fullname'
+                      name='name'
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      value={formik.values.fullname}
+                      value={formik.values.name}
                     />
-                    {formik.touched.fullname && formik.errors.fullname ? (
-                      <div className='text-sm text-red-500'>{formik.errors.fullname}</div>
+                    {formik.touched.name && formik.errors.name ? (
+                      <div className='text-sm text-red-500'>{formik.errors.name}</div>
                     ) : null}
                   </div>
                   <div className='fs-4 text form-group mb-3'>

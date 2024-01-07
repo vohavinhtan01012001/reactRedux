@@ -5,7 +5,7 @@ export interface Product {
   name: string
   description: string
   price: number
-  priceReduced: number
+  priceRedu: number
   quantity: number
   image: string
   image2: string
@@ -15,7 +15,6 @@ export interface Product {
   status: number
   categoryId: number
   Size: Size
-  promotionId: number
   sizeId: number
   productGroupId: number
   Category: Category

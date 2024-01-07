@@ -25,6 +25,7 @@ export default function ListProduct() {
       promise.abort()
     }
   }, [dispatch])
+  console.log(productList)
   const handleDelete = (id: number) => {
     Swal.fire({
       title: 'Are you sure?',
@@ -172,7 +173,7 @@ export default function ListProduct() {
                     </th>
                     <td className='px-6 py-4'>{item.Category?.name}</td>
                     <td className='px-6 py-4'>{CurrencyFormatter(item.price)}</td>
-                    <td className='px-6 py-4'>{CurrencyFormatter(item.priceReduced)}</td>
+                    <td className='px-6 py-4'>{CurrencyFormatter(item.priceRedu)}</td>
                     <td className='px-6 py-4'>
                       <img src={item.image} alt={item.name} width={50} />
                     </td>

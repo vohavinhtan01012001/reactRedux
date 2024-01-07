@@ -35,7 +35,7 @@ const initialState: OrderClientState = {
   order: [],
   user: {
     id: 0,
-    fullname: '',
+    name: '',
     address: '',
     phone: '',
     email: '',

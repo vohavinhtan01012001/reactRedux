@@ -13,7 +13,7 @@ function AddSize(): JSX.Element {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const dispatch = useAppDispatch()
 
-  const initialValues: CreateCategory = {
+  const initialValues: CreateSize = {
     name: '',
     description: ''
   }

@@ -121,7 +121,7 @@ export default function ProductDetail() {
               </div>
               {/* <div className='content__product-evaluate'>{starIcons}</div> */}
               <div className='product-price px-4 pb-3' id='price-preview'>
-                {product?.promotionId ? (
+               {/*  {product?.promotionId ? (
                   <>
                     <span className='text-start text-base text-red-600'>
                       <h2>{product && CurrencyFormatter(product?.priceReduced)}</h2>
@@ -134,7 +134,7 @@ export default function ProductDetail() {
                   <h2 className='text-start text-base text-red-600'>
                     {product && CurrencyFormatter(product?.priceReduced)}
                   </h2>
-                )}
+                )} */}
               </div>
 
               <form
@@ -342,7 +342,7 @@ export default function ProductDetail() {
                           <div className='flexbox-content pd-l-10'>
                             <Link to={`/${item.Category?.name}/${item.id}`}>
                               <h3>{item.name}</h3>
-                              <p className='product-box-price-related clearfix flexbox-grid-default'>
+                              {/* <p className='product-box-price-related clearfix flexbox-grid-default'>
                                 {item.promotionId ? (
                                   <>
                                     <span className='price-new-related flexbox-content text-left'>
@@ -363,7 +363,7 @@ export default function ProductDetail() {
                                     )}
                                   </span>
                                 )}
-                              </p>
+                              </p> */}
                             </Link>
                           </div>
                         </div>

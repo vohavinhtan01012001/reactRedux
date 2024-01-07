@@ -71,7 +71,7 @@ const AddProduct: React.FC = () => {
             } else {
               values.categoryId = parseInt(values.categoryId)
             }
-            console.log(values.sizeId)
+            console.log(values)
             if (values.sizeId == undefined) {
               values.sizeId = sizeList[0].id
             } else {
@@ -133,7 +133,7 @@ const AddProduct: React.FC = () => {
                     <Field name='sizeId' as='select'>
                       {({ field }: any) => (
                         <select {...field}>
-                          {sizeList.map((item, index) => {
+                          {sizeList?.map((item, index) => {
                             return <option value={item.id}>{item.name}</option>
                           })}
                         </select>

@@ -17,7 +17,7 @@ interface CategoryClientState {
 const initialState: CategoryClientState = {
   user: {
     id: 0,
-    fullname: '',
+    name: '',
     address: '',
     phone: '',
     email: '',

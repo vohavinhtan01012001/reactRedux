@@ -41,7 +41,7 @@ const initialState: UserState = {
   userList: [],
   checkAdmin: false,
   useLogin: {
-    email: '',
+    username: '',
     password: ''
   },
   loginResponse: {

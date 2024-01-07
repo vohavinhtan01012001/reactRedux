@@ -7,7 +7,8 @@ import { signUpValidationSchema } from 'validator/auth.valid'
 function Register() {
   const dispatch = useAppDispatch()
   const initialValuesSignUp = {
-    fullname: '',
+    name: '',
+    username: '',
     email: '',
     password: '',
     phone: '',
@@ -45,13 +46,24 @@ function Register() {
         <label>Full Name</label>
         <input
           type='text'
-          name='fullname'
+          name='name'
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          value={formik.values.fullname}
+          value={formik.values.name}
         />
-        {formik.touched.fullname && formik.errors.fullname ? (
-          <div className='text-sm text-red-600'>{formik.errors.fullname}</div>
+        {formik.touched.name && formik.errors.name ? (
+          <div className='text-sm text-red-600'>{formik.errors.name}</div>
+        ) : null}
+        <label>UserName</label>
+        <input
+          type='text'
+          name='username'
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.username}
+        />
+        {formik.touched.username && formik.errors.username ? (
+          <div className='text-sm text-red-600'>{formik.errors.username}</div>
         ) : null}
         <label>Password</label>
         <input
